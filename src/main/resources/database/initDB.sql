@@ -19,9 +19,6 @@ CREATE TABLE IF NOT EXISTS billetservice.list_of_cities (
   city VARCHAR(45) NOT NULL,
   PRIMARY KEY (id));
 
-CREATE UNIQUE INDEX id_UNIQUE on billetservice.list_of_cities(id);
-CREATE UNIQUE INDEX city_UNIQUE on billetservice.list_of_cities(city);
-
 -- -----------------------------------------------------
 -- Table `billetservice`.`route_list`
 -- -----------------------------------------------------
@@ -44,10 +41,6 @@ CREATE TABLE IF NOT EXISTS billetservice.route_list (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-CREATE UNIQUE INDEX fk_route_list_list_of_cities_idx on billetservice.route_list(city_output);
-CREATE UNIQUE INDEX fk_route_list_list_of_cities1_idx on billetservice.route_list(city_input);
-
-
 -- -----------------------------------------------------
 -- Table `billetservice`.`payment_status`
 -- -----------------------------------------------------
@@ -55,7 +48,6 @@ CREATE TABLE IF NOT EXISTS billetservice.payment_status (
   id INT NOT NULL UNIQUE ,
   status VARCHAR(45) NOT NULL,
   PRIMARY KEY (id));
-
 
 -- -----------------------------------------------------
 -- Table `billetservice`.`bilet_list`
@@ -73,8 +65,6 @@ CREATE TABLE IF NOT EXISTS billetservice.bilet_list (
     REFERENCES billetservice.route_list(id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-CREATE UNIQUE INDEX fk_bilet_list_route_list1_idx on billetservice.bilet_list(route_list_id);
 
 -- -----------------------------------------------------
 -- Table `billetservice`.`payment`
@@ -94,7 +84,4 @@ CREATE TABLE IF NOT EXISTS billetservice.payment (
     REFERENCES billetservice.bilet_list (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-CREATE UNIQUE INDEX fk_payment_payment_status1_idx on billetservice.payment(payment_status_id);
-CREATE UNIQUE INDEX fk_payment_bilet_list1_idx on billetservice.payment(bilet_list_id);
 
