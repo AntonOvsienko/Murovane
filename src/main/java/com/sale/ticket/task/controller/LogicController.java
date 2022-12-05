@@ -1,11 +1,12 @@
 package com.sale.ticket.task.controller;
 
-import com.sale.ticket.task.model.City;
-import com.sale.ticket.task.model.Route;
+import com.sale.ticket.task.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,20 +23,33 @@ public class LogicController {
     @GetMapping("/route-list")
     public String showAllRoute(Model model) {
         City city1 = new City("Dnepr");
-        System.out.println(1);
         City city2 = new City("Kharkov");
-        System.out.println(2);
         Date date = new Date(2022, 9, 31);
-        System.out.println(3);
-        Route route = new Route(1,city1, city2, date, 600, 30);
-        System.out.println(4);
+        Route route = new Route(1, city1, city2, date, 600, 30);
         List<Route> routeList = new ArrayList<>();
-        System.out.println(5);
         routeList.add(route);
-        System.out.println(6);
         model.addAttribute("routeList", routeList);
-        System.out.println(7);
-        System.out.println(route);
+        model.addAttribute("billetPresent", false);
+
+        return "route-list.html";
+    }
+
+    @PostMapping("/buy-ticket")
+    public String addNewTicket(@RequestParam("id") String id, @RequestParam("firstname") String firstname,
+                               @RequestParam("surname") String surname, @RequestParam("patronomic") String patronomic, Model model) {
+        Integer routeId= Integer.valueOf(id);
+        Payment payment = new Payment();
+        Billet billet = new Billet();
+        billet.setId(routeId);
+        payment.setBillet(billet);
+        payment.setFirstName(firstname);
+        payment.setSurname(surname);
+        payment.setPatronomic(patronomic);
+        payment.setCount(1);
+        payment.setStatus(new PaymentStatus("NEW"));
+
+        model.addAttribute("billetIndex", payment.getBillet().getId());
+        model.addAttribute("billetPresent", true);
 
         return "route-list.html";
     }

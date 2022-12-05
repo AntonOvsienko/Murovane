@@ -17,4 +17,8 @@ public class PaymentStatus {
 
     @Column(name = "status")
     private String status;
+
+    public PaymentStatus(String status) {
+        this.status = status;
+    }
 }
