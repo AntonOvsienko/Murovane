@@ -16,7 +16,7 @@ public class LogicController {
 
     @RequestMapping("/")
     public String showFirstPage() {
-        return "index.jsp";
+        return "index.html";
     }
 
     @GetMapping("/route-list")
@@ -27,7 +27,7 @@ public class LogicController {
         System.out.println(2);
         Date date = new Date(2022, 9, 31);
         System.out.println(3);
-        Route route = new Route(city1, city2, date, 600, 30);
+        Route route = new Route(1,city1, city2, date, 600, 30);
         System.out.println(4);
         List<Route> routeList = new ArrayList<>();
         System.out.println(5);
@@ -35,7 +35,8 @@ public class LogicController {
         System.out.println(6);
         model.addAttribute("routeList", routeList);
         System.out.println(7);
+        System.out.println(route);
 
-        return "route-list.jsp";
+        return "route-list.html";
     }
 }

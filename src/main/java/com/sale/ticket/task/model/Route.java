@@ -14,7 +14,7 @@ public class Route {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "city_output")
@@ -33,7 +33,8 @@ public class Route {
     @Column(name = "count")
     private Integer count;
 
-    public Route(City output, City input, Date departureTime, Integer value, Integer count) {
+    public Route(Integer id,City output, City input, Date departureTime, Integer value, Integer count) {
+        this.id=id;
         this.output = output;
         this.input = input;
         this.departureTime = departureTime;

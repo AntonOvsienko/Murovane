@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div><form></form>
+    <h2>Введите фамилию имя и отчество</h2>
+    <input type="text" name="name" placeholder="Имя" />
+    <input type="text" name="name" placeholder="Имя"/>
+    <table border="1">
+        <tr>
+            <td>Отправление</td>
+            <td>Прибытие</td>
+            <td>Время отправления</td>
+            <td>Цена</td>
+            <td>Кол-во билетов</td>
+        </tr>
+        <tr th:each="route: ${routeList}">
+            <td width="100" th:text="${route.output.city}"/>
+            <td width="100" th:text="${route.input.city}"/>
+            <td width="250" th:text="${route.departureTime}"/>
+            <td width="100" th:text="${route.value}"/>
+            <td width="80" th:text="${route.count}"/>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
