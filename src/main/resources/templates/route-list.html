@@ -7,44 +7,46 @@
 <div>
 
     <h2>Введите фамилию имя и отчество</h2>
-    <p><b>Ваше имя:</b><br>
-        <input type="text" name="firstname" size="40" form="buy" required/>
-    <p><b>Ваше фамилия:</b><br>
-        <input type="text" name="surname" size="40" form="buy" required/>
-    <p><b>Ваше Отчество:</b><br>
-        <input type="text" name="patronomic" size="40" form="buy" required/>
-    <table border="1">
-        <tr>
-            <td>Id</td>
-            <td>Отправление</td>
-            <td>Прибытие</td>
-            <td>Время отправления</td>
-            <td>Цена</td>
-            <td>Кол-во билетов</td>
-        </tr>
-        <tr th:each="route: ${routeList}">
-            <form action="/buy-ticket" method="post" id="buy">
-                <input type="number" th:value=${route.id} name="id" hidden>
-                <td width="15" th:text="${route.id}"/>
+    <form action="/buy-ticket" method="post" id="buy">
+        <p><b>Ваше имя:</b><br>
+            <input type="text" name="firstname" size="40" required/>
+        <p><b>Ваше фамилия:</b><br>
+            <input type="text" name="surname" size="40" required/>
+        <p><b>Ваше Отчество:</b><br>
+            <input type="text" name="patronomic" size="40" required/>
+        </p>
+        <table border="1">
+            <tr>
+                <td>Отправление</td>
+                <td>Прибытие</td>
+                <td>Время отправления</td>
+                <td>Цена</td>
+                <td>Кол-во билетов</td>
+            </tr>
+            <tr th:each="route: ${routeList}">
+                <input type="number" th:value=${route.id} form="buy" hidden>
                 <td width="100" th:text="${route.output.city}"/>
                 <td width="100" th:text="${route.input.city}"/>
-                <td width="250" th:text="${route.departureTime}"/>
-                <td width="100" th:text="${route.value}"/>
-                <td width="180">
+                <td width="180" th:text="${route.departureTime}"/>
+                <td width="50" th:text="${route.value}"/>
+                <td width="150">
                     <span th:if="${route.count} > 0" th:text="${route.count}"/>
                     <span th:if="${route.count} == 0" th:text="'Свободных мест нет'"/>
                 </td>
-                <td width="180">
+                <td width="40">
                     <span th:if="${route.count} > 0">
-                        <input type="submit" value="Купить">
+                        <input type="radio" name=id th:value="${route.id}" required/>
                     </span>
                     <span th:if="${route.count} == 0">
-                     <input type="submit" value="Купить" disabled>
-                </span>
+                        <input type="radio" name=id th:value="${route.id}" disabled/>
+                    </span>
                 </td>
-            </form>
-        </tr>
-    </table>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" value="Купить билет">
+    </form>
+
     <br>
     <br>
     <span th:if="${billetPresent} == true">
