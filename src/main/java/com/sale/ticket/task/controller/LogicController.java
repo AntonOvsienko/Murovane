@@ -35,11 +35,11 @@ public class LogicController {
     }
 
     @PostMapping ("/buy-ticket")
-    public String addNewTicket(@RequestParam ("id") String id, @RequestParam ("firstname") String firstname, @RequestParam ("surname") String surname, @RequestParam ("patronomic") String patronomic, Model model) {
+    public String addNewTicket(@RequestParam ("id") Integer id, @RequestParam ("firstname") String firstname, @RequestParam ("surname") String surname, @RequestParam ("patronomic") String patronomic, Model model) {
         System.out.println(id);
         Payment payment = new Payment();
         Billet billet = new Billet();
-        billet.setId(1);
+        billet.setId(id);
         payment.setBillet(billet);
         payment.setFirstName(firstname);
         payment.setSurname(surname);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
 </head>
@@ -32,7 +32,7 @@
                 <span th:if="${route.count} == 0" th:text="'Свободных мест нет'"/>
             </td>
             <td width="180">
-                    <input type="text" value="${route.id}" name="id" hidden>
+                    <input type="text" th:value=${route.id} name="id" hidden>
                     <span th:if="${route.count} > 0">
                         <input type="submit" value="Купить">
                     </span>
