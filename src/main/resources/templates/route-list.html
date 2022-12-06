@@ -7,13 +7,12 @@
 <div>
 
     <h2>Введите фамилию имя и отчество</h2>
-    <form action="/buy-ticket" method="post">
     <p><b>Ваше имя:</b><br>
-        <input type="text" name="firstname" size="40" required/>
+        <input type="text" name="firstname" size="40" form="buy-ticket" required/>
     <p><b>Ваше фамилия:</b><br>
-        <input type="text" name="surname" size="40" required/>
+        <input type="text" name="surname" size="40" form="buy-ticket" required/>
     <p><b>Ваше Отчество:</b><br>
-        <input type="text" name="patronomic" size="40" required/>
+        <input type="text" name="patronomic" size="40" form="buy-ticket" required/>
     <table border="1">
         <tr>
             <td>Отправление</td>
@@ -32,17 +31,18 @@
                 <span th:if="${route.count} == 0" th:text="'Свободных мест нет'"/>
             </td>
             <td width="180">
-                    <input type="text" th:value=${route.id} name="id" hidden>
+                <form action="/buy-ticket" method="post" id="buy-ticket">
+                    <input type="number" th:value=${route.id} name="id" hidden>
                     <span th:if="${route.count} > 0">
                         <input type="submit" value="Купить">
                     </span>
+                </form>
                 <span th:if="${route.count} == 0">
                      <input type="submit" value="Купить" disabled>
                 </span>
             </td>
         </tr>
     </table>
-    </form>
     <br>
     <br>
     <span th:if="${billetPresent} == true">

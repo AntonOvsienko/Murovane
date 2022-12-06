@@ -19,6 +19,7 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 public class LogicController {
+
     private final BilletService billetService;
     private final RouteService routeService;
 
@@ -37,15 +38,13 @@ public class LogicController {
     }
 
     @PostMapping ("/buy-ticket")
-    public String addNewTicket(@RequestParam ("id") Integer id,
-                               @RequestParam ("firstname") @NonNull String firstname,
-                               @RequestParam ("surname") @NonNull String surname,
-                               @RequestParam ("patronomic") @NonNull String patronomic, Model model) {
+    public String addNewTicket(@RequestParam ("id") Integer id, @RequestParam ("firstname") @NonNull String firstname, @RequestParam ("surname") @NonNull String surname, @RequestParam ("patronomic") @NonNull String patronomic, Model model) {
+        System.out.println(id);
         Billet billet = new Billet();
         billet.setFirstName(firstname);
         billet.setSurname(surname);
         billet.setPatronomic(patronomic);
-        Integer billetId = billetService.createNewTicket(billet,id);
+        Integer billetId = billetService.createNewTicket(billet, id);
         model.addAttribute("billetIndex", billetId);
         model.addAttribute("billetPresent", true);
         List<Route> routeList = routeService.getAllRoute();

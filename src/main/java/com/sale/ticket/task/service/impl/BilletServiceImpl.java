@@ -19,17 +19,25 @@ public class BilletServiceImpl implements BilletService {
     private final BilletRepository billetRepository;
     private final PaymentService paymentService;
 
-    @Transactional
+
     @Override
     public Integer createNewTicket(Billet billet, Integer id) {
+        Billet newBillet = getNewBillet(billet, id);
+        if (newBillet != null) {
+            paymentService.createNewPayment(newBillet);
+        }
+        return newBillet.getId();
+    }
+
+    @Transactional
+    private Billet getNewBillet(Billet billet, Integer id) {
         Route route = routeRepository.getReferenceById(id);
         billet.setRoute(route);
         if (route.getCount() == 0) {
             throw new IllegalArgumentException("Свободных биллетов нет");
         }
         Billet newBillet = billetRepository.saveAndFlush(billet);
-        paymentService.createNewPayment(newBillet);
         route.setCount(route.getCount() - 1);
-        return newBillet.getId();
+        return newBillet;
     }
 }
