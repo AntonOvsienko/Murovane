@@ -29,14 +29,14 @@
             <td width="100" th:text="${route.value}"/>
             <td width="180">
                 <span th:if="${route.count} > 0" th:text="${route.count}"/>
-                <span th:if="${route.count} == 0" th:text="Свободных мест нет"/>
+                <span th:if="${route.count} == 0" th:text="'Свободных мест нет'"/>
             </td>
             <td width="180">
-                    <input type="number" value="${route.id}" name="id" hidden>
-                    <span th:if="${#conversions.convert(route.id, 'Integer') > '0'}">
+                    <input type="text" value="${route.id}" name="id" hidden>
+                    <span th:if="${route.count} > 0">
                         <input type="submit" value="Купить">
                     </span>
-                <span th:if="${route.count} == '0'">
+                <span th:if="${route.count} == 0">
                      <input type="submit" value="Купить" disabled>
                 </span>
             </td>

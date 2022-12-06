@@ -15,12 +15,12 @@ import java.util.List;
 @Controller
 public class LogicController {
 
-    @RequestMapping("/")
+    @RequestMapping ("/")
     public String showFirstPage() {
         return "index.html";
     }
 
-    @GetMapping("/route-list")
+    @GetMapping ("/route-list")
     public String showAllRoute(Model model) {
         City city1 = new City("Dnepr");
         City city2 = new City("Kharkov");
@@ -34,13 +34,12 @@ public class LogicController {
         return "route-list.html";
     }
 
-    @PostMapping("/buy-ticket")
-    public String addNewTicket(@RequestParam("id") String id, @RequestParam("firstname") String firstname,
-                               @RequestParam("surname") String surname, @RequestParam("patronomic") String patronomic, Model model) {
-        Integer routeId= Integer.valueOf(id);
+    @PostMapping ("/buy-ticket")
+    public String addNewTicket(@RequestParam ("id") String id, @RequestParam ("firstname") String firstname, @RequestParam ("surname") String surname, @RequestParam ("patronomic") String patronomic, Model model) {
+        System.out.println(id);
         Payment payment = new Payment();
         Billet billet = new Billet();
-        billet.setId(routeId);
+        billet.setId(1);
         payment.setBillet(billet);
         payment.setFirstName(firstname);
         payment.setSurname(surname);
