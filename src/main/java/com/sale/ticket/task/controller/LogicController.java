@@ -1,6 +1,10 @@
 package com.sale.ticket.task.controller;
 
 import com.sale.ticket.task.model.*;
+import com.sale.ticket.task.service.BilletService;
+import com.sale.ticket.task.service.RouteService;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +17,10 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class LogicController {
+    private final BilletService billetService;
+    private final RouteService routeService;
 
     @RequestMapping ("/")
     public String showFirstPage() {
@@ -22,12 +29,7 @@ public class LogicController {
 
     @GetMapping ("/route-list")
     public String showAllRoute(Model model) {
-        City city1 = new City("Dnepr");
-        City city2 = new City("Kharkov");
-        Date date = new Date(2022, 9, 31);
-        Route route = new Route(1, city1, city2, date, 600, 30);
-        List<Route> routeList = new ArrayList<>();
-        routeList.add(route);
+        List<Route> routeList = routeService.getAllRoute();
         model.addAttribute("routeList", routeList);
         model.addAttribute("billetPresent", false);
 
@@ -35,20 +37,19 @@ public class LogicController {
     }
 
     @PostMapping ("/buy-ticket")
-    public String addNewTicket(@RequestParam ("id") Integer id, @RequestParam ("firstname") String firstname, @RequestParam ("surname") String surname, @RequestParam ("patronomic") String patronomic, Model model) {
-        System.out.println(id);
-        Payment payment = new Payment();
+    public String addNewTicket(@RequestParam ("id") Integer id,
+                               @RequestParam ("firstname") @NonNull String firstname,
+                               @RequestParam ("surname") @NonNull String surname,
+                               @RequestParam ("patronomic") @NonNull String patronomic, Model model) {
         Billet billet = new Billet();
-        billet.setId(id);
-        payment.setBillet(billet);
-        payment.setFirstName(firstname);
-        payment.setSurname(surname);
-        payment.setPatronomic(patronomic);
-        payment.setCount(1);
-        payment.setStatus(new PaymentStatus("NEW"));
-
-        model.addAttribute("billetIndex", payment.getBillet().getId());
+        billet.setFirstName(firstname);
+        billet.setSurname(surname);
+        billet.setPatronomic(patronomic);
+        Integer billetId = billetService.createNewTicket(billet,id);
+        model.addAttribute("billetIndex", billetId);
         model.addAttribute("billetPresent", true);
+        List<Route> routeList = routeService.getAllRoute();
+        model.addAttribute("routeList", routeList);
 
         return "route-list.html";
     }

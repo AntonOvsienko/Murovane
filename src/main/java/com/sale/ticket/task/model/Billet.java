@@ -18,4 +18,13 @@ public class Billet {
     @ManyToOne
     @JoinColumn(name = "route_list_id ")
     private Route route;
+
+    @Column(name = "firstname")
+    private String firstName;
+
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "patronomic")
+    private String patronomic;
 }

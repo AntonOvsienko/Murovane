@@ -13,7 +13,7 @@ import java.util.Date;
 public class Route {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @ManyToOne
@@ -32,13 +32,4 @@ public class Route {
 
     @Column(name = "count")
     private Integer count;
-
-    public Route(Integer id,City output, City input, Date departureTime, Integer value, Integer count) {
-        this.id=id;
-        this.output = output;
-        this.input = input;
-        this.departureTime = departureTime;
-        this.value = value;
-        this.count = count;
-    }
 }

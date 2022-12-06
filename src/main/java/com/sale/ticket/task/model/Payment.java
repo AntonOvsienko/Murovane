@@ -12,8 +12,8 @@ import javax.persistence.*;
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "bilet_list_id")
@@ -23,15 +23,4 @@ public class Payment {
     @JoinColumn(name = "payment_status_id")
     private PaymentStatus status;
 
-    @Column(name = "firstname")
-    private String firstName;
-
-    @Column(name = "surname")
-    private String surname;
-
-    @Column(name = "patronomic")
-    private String patronomic;
-
-    @Column(name = "count")
-    private Integer count;
 }

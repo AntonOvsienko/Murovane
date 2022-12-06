@@ -12,13 +12,9 @@ import javax.persistence.*;
 public class City {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column(name = "city")
     private String city;
-
-    public City(String city) {
-        this.city = city;
-    }
 }
