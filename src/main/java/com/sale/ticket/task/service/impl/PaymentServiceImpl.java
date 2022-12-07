@@ -21,9 +21,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     @Override
     public void createNewPayment(Billet billet) {
-        PaymentStatus paymentStatus = paymentStatusRepository.findAll()
-                .stream().filter(status->status.getStatus().equals("NEW"))
-                .findFirst().get();
+        PaymentStatus paymentStatus = paymentStatusRepository.findAll().stream().filter(status -> status.getStatus().equals("NEW")).findFirst().get();
         paymentStatus.setStatus("NEW");
         Payment payment = new Payment();
         payment.setBillet(billet);
@@ -33,6 +31,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment getPaymentByIdBillet(Integer id) {
-        return paymentRepository.getPaymentByBilletId(id);
+        Payment payment = null;
+        try {
+            payment = paymentRepository.getPaymentByBilletId(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            return payment;
+        }
     }
 }

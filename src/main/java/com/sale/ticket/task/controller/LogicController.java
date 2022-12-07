@@ -42,14 +42,22 @@ public class LogicController {
     }
 
     @GetMapping ("/ticket-info")
+    public String ticketInformation(Model model) {
+        model.addAttribute("paymentPresent", false);
+
+        return "ticket-info.html";
+    }
+
+    @GetMapping ("/ticket-info/get")
     public String getTicketInformation(@RequestParam ("id") @NonNull Integer id, Model model) {
         Payment payment = paymentService.getPaymentByIdBillet(id);
         if (payment == null) {
-            model.addAttribute("exceptionPresent", true);
+            model.addAttribute("paymentPresent", false);
             model.addAttribute("exceptionMessage", "Билет с таким номером не найден");
         } else {
-        model.addAttribute("exceptionPresent", false);
-        model.addAttribute("payment", payment);
+            model.addAttribute("paymentPresent", true);
+            model.addAttribute("payment", payment);
+            System.out.println(payment);
         }
         return "ticket-info.html";
     }

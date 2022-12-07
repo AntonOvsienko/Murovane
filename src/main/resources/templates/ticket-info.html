@@ -6,11 +6,12 @@
 <body>
 <div>
 
-    <form action="/buy-ticket" method="post" id="buy">
+    <form action="/ticket-info/get" method="get">
         <p><b>Введите номер билета:</b><br>
             <input type="number" name="id" size="10" required/>
+            <input type="submit" value="Проверить">
         </p>
-        <div th:if="${billetPresent} == true">
+        <div th:if="${paymentPresent} == true">
             <table border="1">
                 <tr>
                     <td>Отправление</td>
@@ -24,24 +25,19 @@
                     <td width="100" th:text="${payment.billet.route.input.city}"/>
                     <td width="180" th:text="${payment.billet.route.departureTime}"/>
                     <td width="50" th:text="${payment.billet.route.value}"/>
-                    <td width="100" th:text="${payment.billet.route.value}"/>
-                    <td width="40" th:text="${payment.status.status"/>
+                    <td width="40" th:text="${payment.status.status}"/>
                 </tr>
             </table>
         </div>
-        <div th:unless="${billetPresent} == true">
+        <div th:if="${paymentPresent} == false">
             <p><td th:text="${exceptionMessage}"/></p>
         </div>
     </form>
     <form action="/" method="get">
         <input type="submit" value="Назад">
     </form>
-
     <br>
     <br>
-    <span th:if="${billetPresent} ==true">
-    <h3><td th:text="${exceptionMessage}"/></h3>
-    </span>
 </div>
 </body>
 </html>

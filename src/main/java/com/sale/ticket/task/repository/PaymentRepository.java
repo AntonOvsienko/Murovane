@@ -14,7 +14,8 @@ public interface PaymentRepository extends JpaRepository<Payment,Integer> {
             + " JOIN p.billet pb"
             + " JOIN p.status ps"
             + " JOIN pb.route pbr"
-            + " JOIN pbr.city pbrc"
-            + " WHERE pb.id = id")
+            + " JOIN pbr.output pbro"
+            + " JOIN pbr.input pbri"
+            + " WHERE pb.id = :id")
     Payment getPaymentByBilletId(@Param ("id") Integer id);
 }
