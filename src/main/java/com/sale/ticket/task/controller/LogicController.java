@@ -48,6 +48,28 @@ public class LogicController {
         return "ticket-info.html";
     }
 
+    @GetMapping ("/service-payment")
+    public String paymentInformation(Model model) {
+        model.addAttribute("paymentMessage", "");
+
+        return "ticket-info.html";
+    }
+
+    @PostMapping ("/service-payment/buy")
+    public String addPay(Model model, @RequestParam ("id") @NonNull Integer id,
+                         @RequestParam ("name") @NonNull String name,
+                         @RequestParam ("surname") @NonNull String surname,
+                         @RequestParam ("patronomic") @NonNull String patronimic) {
+        if (paymentService.getPaymentByIdBilletAndInitial(id, name, surname, patronimic)){
+            model.addAttribute("paymentMessage", "Платёж прошёл удачно");
+        } else {
+            model.addAttribute("paymentMessage", "Указанного билета на указанного ппассажира не найдено.");
+        }
+        model.addAttribute("paymentMessage", false);
+
+        return "ticket-info.html";
+    }
+
     @GetMapping ("/ticket-info/get")
     public String getTicketInformation(@RequestParam ("id") @NonNull Integer id, Model model) {
         Payment payment = paymentService.getPaymentByIdBillet(id);

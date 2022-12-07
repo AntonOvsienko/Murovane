@@ -11,6 +11,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+
 @Service
 @AllArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -39,5 +43,46 @@ public class PaymentServiceImpl implements PaymentService {
         } finally {
             return payment;
         }
+    }
+
+    @Override
+    @Transactional
+    public Boolean getPaymentByIdBilletAndInitial(Integer id, String name, String surname, String patronomic) {
+        Payment payment = null;
+        try {
+            payment = paymentRepository.getPaymentByBilletIdAndInitial(id, name, surname, patronomic);
+        } catch (Exception e) {
+            return false;
+        }
+        changeStatus(payment);
+        return true;
+    }
+
+    private void changeStatus(Payment payment) {
+        Random random = new Random();
+        List<PaymentStatus> paymentStatuses = paymentStatusRepository.findAll();
+        paymentStatuses.sort((o1, o2) -> {
+            if (o1.getId() < o2.getId()) {
+                return 1;
+            }
+            if (o1.getId() > o2.getId()) {
+                return -1;
+            }
+            return 0;
+        });
+
+        int rand = 0;
+        while (true) {
+            rand = random.nextInt(3);
+            if (rand != 0) {
+                break;
+            }
+        }
+        if (rand == 1) {
+            payment.setStatus(paymentStatuses.get(1));
+        } else {
+            payment.setStatus(paymentStatuses.get(2));
+        }
+
     }
 }

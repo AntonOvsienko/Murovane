@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div>
+
+    <h2>Введите ФИО и номер билета</h2>
+    <form action="/service-payment/buy" method="post" id="buy">
+        <p><b>Ваше имя:</b><br>
+            <input type="text" name="firstname" size="40" required/>
+        <p><b>Ваше фамилия:</b><br>
+            <input type="text" name="surname" size="40" required/>
+        <p><b>Ваше отчество:</b><br>
+            <input type="text" name="patronomic" size="40" required/>
+        <p><b>Ваше отчество:</b><br>
+            <input type="number" name="id" size="40" required/>
+        <input type="submit" value="Произвести оплату">
+        <br>
+        <input type="submit" value="Купить билет">
+    </form>
+    <form action="/" method="get">
+        <input type="submit" value="Назад">
+    </form>
+
+    <br>
+    <br>
+    <td th:text="${paymentMessage}"/>
+
+</div>
+</body>
+</html>

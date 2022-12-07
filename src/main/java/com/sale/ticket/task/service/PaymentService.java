@@ -9,4 +9,6 @@ public interface PaymentService {
 
     Payment getPaymentByIdBillet(Integer id);
 
+    Boolean getPaymentByIdBilletAndInitial(Integer id, String name, String surname, String patronomic);
+
 }
