@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
 </head>
 <body>
 <h1>Сервис покупки и обслуживаню билетов</h1>
-<form method="get" action="/route-list">
+<form method="post" action="/route-list">
     <input type="submit" value="Купить билет"/>
 </form>
 <form method="get" action="/ticket-info">
     <input type="submit" value="Информация по номеру билета"/>
+</form>
+<form method="post" action="/service-payment">
+    <input type="submit" value="Оплатить билет"/>
 </form>
 </body>
 </html>

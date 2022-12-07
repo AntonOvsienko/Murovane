@@ -32,7 +32,7 @@ public class LogicController {
         return "index.html";
     }
 
-    @GetMapping ("/route-list")
+    @PostMapping ("/route-list")
     public String showAllRoute(Model model) {
         List<Route> routeList = routeService.getAllRoute();
         model.addAttribute("routeList", routeList);
@@ -48,11 +48,11 @@ public class LogicController {
         return "ticket-info.html";
     }
 
-    @GetMapping ("/service-payment")
+    @PostMapping ("/service-payment")
     public String paymentInformation(Model model) {
         model.addAttribute("paymentMessage", "");
 
-        return "ticket-info.html";
+        return "service-payment.html";
     }
 
     @PostMapping ("/service-payment/buy")
@@ -65,9 +65,8 @@ public class LogicController {
         } else {
             model.addAttribute("paymentMessage", "Указанного билета на указанного ппассажира не найдено.");
         }
-        model.addAttribute("paymentMessage", false);
 
-        return "ticket-info.html";
+        return "service-payment.html";
     }
 
     @GetMapping ("/ticket-info/get")

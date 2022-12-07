@@ -26,7 +26,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
             " JOIN pbr.output pbro" +
             " JOIN pbr.input pbri" +
             " WHERE pb.id = :id" +
-            " AND pb.name = :name AND pb.surname = :surname" +
+            " AND pb.firstName = :name AND pb.surname = :surname" +
             " AND pb.patronomic = :patronomic")
     Payment getPaymentByBilletIdAndInitial(@Param ("id") Integer id,
                                            @Param ("name") String name,
