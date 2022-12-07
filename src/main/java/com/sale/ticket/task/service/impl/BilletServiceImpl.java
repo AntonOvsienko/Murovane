@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class BilletServiceImpl implements BilletService {
 
     private final RouteRepository routeRepository;
-
     private final BilletRepository billetRepository;
     private final PaymentService paymentService;
 
@@ -27,6 +26,11 @@ public class BilletServiceImpl implements BilletService {
             paymentService.createNewPayment(newBillet);
         }
         return newBillet.getId();
+    }
+
+    @Override
+    public Billet getBilletByID(Integer id) {
+        return billetRepository.findById(id).orElse(null);
     }
 
     @Transactional

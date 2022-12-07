@@ -6,13 +6,13 @@
 <body>
 <div>
 
-    <h2>Введите фамилию имя и отчество</h2>
+    <h2>Введите ФИО и выберите билет</h2>
     <form action="/buy-ticket" method="post" id="buy">
         <p><b>Ваше имя:</b><br>
             <input type="text" name="firstname" size="40" required/>
         <p><b>Ваше фамилия:</b><br>
             <input type="text" name="surname" size="40" required/>
-        <p><b>Ваше Отчество:</b><br>
+        <p><b>Ваше отчество:</b><br>
             <input type="text" name="patronomic" size="40" required/>
         </p>
         <table border="1">
@@ -45,6 +45,9 @@
         </table>
         <br>
         <input type="submit" value="Купить билет">
+    </form>
+    <form action="/" method="get">
+        <input type="submit" value="Назад">
     </form>
 
     <br>

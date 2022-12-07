@@ -6,4 +6,6 @@ public interface BilletService {
 
     Integer createNewTicket(Billet billet, Integer id);
 
+    Billet getBilletByID (Integer id);
+
 }

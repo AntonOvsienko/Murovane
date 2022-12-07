@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final BilletRepository billetRepository;
     private final PaymentStatusRepository paymentStatusRepository;
 
     @Transactional
@@ -30,5 +29,10 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setBillet(billet);
         payment.setStatus(paymentStatus);
         paymentRepository.saveAndFlush(payment);
+    }
+
+    @Override
+    public Payment getPaymentByIdBillet(Integer id) {
+        return paymentRepository.getPaymentByBilletId(id);
     }
 }

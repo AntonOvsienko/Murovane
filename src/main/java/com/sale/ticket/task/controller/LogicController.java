@@ -2,6 +2,7 @@ package com.sale.ticket.task.controller;
 
 import com.sale.ticket.task.model.*;
 import com.sale.ticket.task.service.BilletService;
+import com.sale.ticket.task.service.PaymentService;
 import com.sale.ticket.task.service.RouteService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -23,6 +24,7 @@ import java.util.List;
 public class LogicController {
 
     private final BilletService billetService;
+    private final PaymentService paymentService;
     private final RouteService routeService;
 
     @RequestMapping ("/")
@@ -39,10 +41,22 @@ public class LogicController {
         return "route-list.html";
     }
 
+    @GetMapping ("/ticket-info")
+    public String getTicketInformation(@RequestParam ("id") @NonNull Integer id, Model model) {
+        Payment payment = paymentService.getPaymentByIdBillet(id);
+        if (payment == null) {
+            model.addAttribute("exceptionPresent", true);
+            model.addAttribute("exceptionMessage", "Билет с таким номером не найден");
+        } else {
+        model.addAttribute("exceptionPresent", false);
+        model.addAttribute("payment", payment);
+        }
+        return "ticket-info.html";
+    }
+
     @PostMapping ("/buy-ticket")
-    public String addNewTicket(@RequestParam ("id")Integer id, @RequestParam ("firstname") String firstname, @RequestParam ("surname") String surname, @RequestParam ("patronomic") String patronomic, Model model) {
+    public String addNewTicket(@RequestParam ("id") @NonNull Integer id, @RequestParam ("firstname") @NonNull String firstname, @RequestParam ("surname") @NonNull String surname, @RequestParam ("patronomic") @NonNull String patronomic, Model model) {
         if (id != 0) {
-            System.out.println(id);
             Billet billet = new Billet();
             billet.setFirstName(firstname);
             billet.setSurname(surname);

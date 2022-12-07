@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div>
+
+    <form action="/buy-ticket" method="post" id="buy">
+        <p><b>Введите номер билета:</b><br>
+            <input type="number" name="id" size="10" required/>
+        </p>
+        <div th:if="${billetPresent} == true">
+            <table border="1">
+                <tr>
+                    <td>Отправление</td>
+                    <td>Прибытие</td>
+                    <td>Время отправления</td>
+                    <td>Цена</td>
+                    <td>Статус платежа</td>
+                </tr>
+                <tr>
+                    <td width="100" th:text="${payment.billet.route.output.city}"/>
+                    <td width="100" th:text="${payment.billet.route.input.city}"/>
+                    <td width="180" th:text="${payment.billet.route.departureTime}"/>
+                    <td width="50" th:text="${payment.billet.route.value}"/>
+                    <td width="100" th:text="${payment.billet.route.value}"/>
+                    <td width="40" th:text="${payment.status.status"/>
+                </tr>
+            </table>
+        </div>
+        <div th:unless="${billetPresent} == true">
+            <p><td th:text="${exceptionMessage}"/></p>
+        </div>
+    </form>
+    <form action="/" method="get">
+        <input type="submit" value="Назад">
+    </form>
+
+    <br>
+    <br>
+    <span th:if="${billetPresent} ==true">
+    <h3><td th:text="${exceptionMessage}"/></h3>
+    </span>
+</div>
+</body>
+</html>
