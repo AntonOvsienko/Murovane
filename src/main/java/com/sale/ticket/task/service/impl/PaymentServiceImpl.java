@@ -70,7 +70,7 @@ public class PaymentServiceImpl implements PaymentService {
         List<Payment> payments = paymentRepository.getAllPaymentHasFailedStatus();
         System.out.println(payments);
         for (Payment x : payments) {
-            Route route = routeService.getAllRoute().get(x.getBillet().getRoute().getId());
+            Route route = routeService.getRouteByIdPayment(x.getId());
             route.setCount(route.getCount() + 1);
             routeRepository.save(route);
             Billet billet = billetRepository.getReferenceById(x.getBillet().getId());

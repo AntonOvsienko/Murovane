@@ -1,6 +1,7 @@
 package com.sale.ticket.task.service.impl;
 
 import com.sale.ticket.task.model.Route;
+import com.sale.ticket.task.repository.PaymentRepository;
 import com.sale.ticket.task.repository.RouteRepository;
 import com.sale.ticket.task.service.RouteService;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository routeRepository;
 
+
     @Override
     public List<Route> getAllRoute() {
         List<Route> list = routeRepository.findAll();
@@ -29,5 +31,10 @@ public class RouteServiceImpl implements RouteService {
             return 0;
         }).collect(Collectors.toList());
         return list;
+    }
+
+    @Override
+    public Route getRouteByIdPayment(Integer id) {
+        return routeRepository.getRouteByPaymentId(id);
     }
 }

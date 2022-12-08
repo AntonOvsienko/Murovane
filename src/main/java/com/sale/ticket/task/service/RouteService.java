@@ -5,7 +5,8 @@ import com.sale.ticket.task.model.Route;
 import java.util.List;
 
 public interface RouteService {
-
     List<Route> getAllRoute();
+
+    Route getRouteByIdPayment(Integer id);
 
 }

@@ -36,6 +36,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     @Query (value = "SELECT p FROM Payment p" +
             " JOIN p.billet pb" +
             " JOIN p.status ps" +
-            " WHERE ps = 'FAILED'")
+            " WHERE ps.status = 'FAILED'")
    List<Payment> getAllPaymentHasFailedStatus();
 }
