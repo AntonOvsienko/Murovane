@@ -63,7 +63,7 @@ public class LogicController {
         if (paymentService.getPaymentByIdBilletAndInitial(id, name, surname, patronimic)){
             model.addAttribute("paymentMessage", "Платёж прошёл удачно");
         } else {
-            model.addAttribute("paymentMessage", "Указанного билета на указанного ппассажира не найдено.");
+            model.addAttribute("paymentMessage", "Указанный билет на указанного пассажира не найден");
         }
 
         return "service-payment.html";

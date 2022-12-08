@@ -7,6 +7,7 @@ import com.sale.ticket.task.repository.BilletRepository;
 import com.sale.ticket.task.repository.PaymentRepository;
 import com.sale.ticket.task.repository.PaymentStatusRepository;
 import com.sale.ticket.task.service.PaymentService;
+import com.sale.ticket.task.service.PaymentStatusService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +21,12 @@ import java.util.Random;
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final PaymentStatusRepository paymentStatusRepository;
+    private final PaymentStatusService paymentStatusService;
 
     @Transactional
     @Override
     public void createNewPayment(Billet billet) {
-        PaymentStatus paymentStatus = paymentStatusRepository.findAll().stream().filter(status -> status.toString().equals("NEW")).findFirst().get();
+        PaymentStatus paymentStatus = paymentStatusService.getAllStatus().stream().filter(status -> status.getStatus().equals("NEW")).findFirst().get();
         Payment payment = new Payment();
         payment.setBillet(billet);
         payment.setStatus(paymentStatus);
@@ -47,29 +48,29 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public Boolean getPaymentByIdBilletAndInitial(Integer id, String name, String surname, String patronomic) {
         Payment payment = null;
-        try {
-            payment = paymentRepository.getPaymentByBilletIdAndInitial(id, name, surname, patronomic);
-        } catch (Exception e) {
+        payment = paymentRepository.getPaymentByBilletIdAndInitial(id, name, surname, patronomic);
+        if (payment != null) {
+            changeStatus(payment);
+        } else {
             return false;
         }
-        changeStatus(payment);
         return true;
     }
 
     private void changeStatus(Payment payment) {
         Random random = new Random();
-        List<PaymentStatus> paymentStatuses = paymentStatusRepository.findAll();
-        System.out.println(payment);
+        List<PaymentStatus> paymentStatuses = paymentStatusService.getAllStatus();
+        System.out.println(paymentStatuses);
         paymentStatuses.sort((o1, o2) -> {
             if (o1.getId() < o2.getId()) {
-                return 1;
+                return -1;
             }
             if (o1.getId() > o2.getId()) {
-                return -1;
+                return 1;
             }
             return 0;
         });
-        System.out.println(payment);
+        System.out.println(paymentStatuses);
         int rand = 0;
         while (true) {
             rand = random.nextInt(3);
