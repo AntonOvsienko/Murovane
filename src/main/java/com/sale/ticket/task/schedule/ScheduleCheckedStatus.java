@@ -11,7 +11,7 @@ public class ScheduleCheckedStatus {
 
     private final PaymentService paymentService;
 
-    @Scheduled (cron = "0 03 20 * * ?")
+    @Scheduled (cron = "0 07 20 * * ?")
     public void cronJob(){
         paymentService.deleteFailedPayment();
     }

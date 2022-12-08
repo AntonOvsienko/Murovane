@@ -69,14 +69,14 @@ public class PaymentServiceImpl implements PaymentService {
     public void deleteFailedPayment() {
         List<Payment> payments = paymentRepository.getAllPaymentHasFailedStatus();
         System.out.println(payments);
-        for (Payment x : payments) {
-            Route route = routeService.getRouteByIdPayment(x.getId());
+        for (Payment payment : payments) {
+            Route route = routeService.getRouteByIdPayment(payment.getId());
+            Billet billet = billetRepository.getReferenceById(payment.getBillet().getId());
             route.setCount(route.getCount() + 1);
             routeRepository.save(route);
-            Billet billet = billetRepository.getReferenceById(x.getBillet().getId());
+            paymentRepository.delete(payment);
             billetRepository.delete(billet);
         }
-        paymentRepository.deleteAll(payments);
     }
 
     private void changeStatus(Payment payment) {
