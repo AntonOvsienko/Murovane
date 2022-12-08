@@ -68,7 +68,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void deleteFailedPayment() {
         List<Payment> payments = paymentRepository.getAllPaymentHasFailedStatus();
-        System.out.println(payments);
         for (Payment payment : payments) {
             Route route = routeService.getRouteByIdPayment(payment.getId());
             Billet billet = billetRepository.getReferenceById(payment.getBillet().getId());
