@@ -32,4 +32,10 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
                                            @Param ("name") String name,
                                            @Param ("surname") String surname,
                                            @Param ("patronomic") String patronomic);
+
+    @Query (value = "SELECT p FROM Payment p" +
+            " JOIN p.billet pb" +
+            " JOIN p.status ps" +
+            " WHERE ps = 'FAILED'")
+   List<Payment> getAllPaymentHasFailedStatus();
 }

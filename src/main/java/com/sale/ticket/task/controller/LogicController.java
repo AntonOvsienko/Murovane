@@ -78,7 +78,6 @@ public class LogicController {
         } else {
             model.addAttribute("paymentPresent", true);
             model.addAttribute("payment", payment);
-            System.out.println(payment);
         }
         return "ticket-info.html";
     }

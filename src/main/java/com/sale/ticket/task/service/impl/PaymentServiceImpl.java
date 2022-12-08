@@ -3,15 +3,19 @@ package com.sale.ticket.task.service.impl;
 import com.sale.ticket.task.model.Billet;
 import com.sale.ticket.task.model.Payment;
 import com.sale.ticket.task.model.PaymentStatus;
+import com.sale.ticket.task.model.Route;
 import com.sale.ticket.task.repository.BilletRepository;
 import com.sale.ticket.task.repository.PaymentRepository;
 import com.sale.ticket.task.repository.PaymentStatusRepository;
+import com.sale.ticket.task.repository.RouteRepository;
 import com.sale.ticket.task.service.PaymentService;
 import com.sale.ticket.task.service.PaymentStatusService;
+import com.sale.ticket.task.service.RouteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -22,6 +26,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final PaymentStatusService paymentStatusService;
+    private final RouteService routeService;
+    private final RouteRepository routeRepository;
+    private final BilletRepository billetRepository;
 
     @Transactional
     @Override
@@ -57,10 +64,24 @@ public class PaymentServiceImpl implements PaymentService {
         return true;
     }
 
+    @Transactional
+    @Override
+    public void deleteFailedPayment() {
+        List<Payment> payments = paymentRepository.getAllPaymentHasFailedStatus();
+        System.out.println(payments);
+        for (Payment x : payments) {
+            Route route = routeService.getAllRoute().get(x.getBillet().getRoute().getId());
+            route.setCount(route.getCount() + 1);
+            routeRepository.save(route);
+            Billet billet = billetRepository.getReferenceById(x.getBillet().getId());
+            billetRepository.delete(billet);
+        }
+        paymentRepository.deleteAll(payments);
+    }
+
     private void changeStatus(Payment payment) {
         Random random = new Random();
         List<PaymentStatus> paymentStatuses = paymentStatusService.getAllStatus();
-        System.out.println(paymentStatuses);
         paymentStatuses.sort((o1, o2) -> {
             if (o1.getId() < o2.getId()) {
                 return -1;
@@ -70,7 +91,6 @@ public class PaymentServiceImpl implements PaymentService {
             }
             return 0;
         });
-        System.out.println(paymentStatuses);
         int rand = 0;
         while (true) {
             rand = random.nextInt(3);

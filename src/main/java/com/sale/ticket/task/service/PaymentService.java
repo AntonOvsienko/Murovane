@@ -11,4 +11,6 @@ public interface PaymentService {
 
     Boolean getPaymentByIdBilletAndInitial(Integer id, String name, String surname, String patronomic);
 
+    void deleteFailedPayment();
+
 }
