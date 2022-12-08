@@ -18,6 +18,9 @@ VALUES (3, 1, 6, '2022-12-17', 550, 0);
 INSERT INTO route_list
 VALUES (4, 4, 5, '2023-01-5', 555, 10);
 
+INSERT INTO route_list
+VALUES (5, 6, 3, '2023-02-5', 555, 1);
+
 INSERT INTO payment_status
 VALUES (1, 'NEW');
 

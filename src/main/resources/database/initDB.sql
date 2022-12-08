@@ -1,18 +1,6 @@
 -- -----------------------------------------------------
--- Schema billetservice
+-- Table `list_of_cities`
 -- -----------------------------------------------------
-
--- CREATE DATABASE billetservice
---     WITH
---     OWNER = postgres
---     ENCODING = 'UTF8'
---     LC_COLLATE = 'Russian_Russia.1251'
---     LC_CTYPE = 'Russian_Russia.1251'
---     TABLESPACE = pg_default
---     CONNECTION LIMIT = -1
---     IS_TEMPLATE = False;
-
---CREATE SCHEMA IF NOT EXISTS billetservice;
 
 CREATE TABLE IF NOT EXISTS list_of_cities (
   id SERIAL NOT NULL UNIQUE,
@@ -20,7 +8,7 @@ CREATE TABLE IF NOT EXISTS list_of_cities (
   PRIMARY KEY (id));
 
 -- -----------------------------------------------------
--- Table `billetservice`.`route_list`
+-- Table `route_list`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS route_list (
   id SERIAL NOT NULL UNIQUE ,
