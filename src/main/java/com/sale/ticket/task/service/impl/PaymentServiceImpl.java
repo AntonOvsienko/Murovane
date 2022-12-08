@@ -75,6 +75,8 @@ public class PaymentServiceImpl implements PaymentService {
             route.setCount(route.getCount() + 1);
             routeRepository.save(route);
             paymentRepository.delete(payment);
+            billet.setRoute(null);
+            billetRepository.save(billet);
             billetRepository.delete(billet);
         }
     }
