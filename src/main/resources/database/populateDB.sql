@@ -1,13 +1,10 @@
--- INSERT INTO list_of_cities VALUES
--- (1, 'Dnepr'),
--- (2, 'Kharkov'),
--- (3, 'Kiev'),
--- (4, 'Kherson'),
--- (5, 'Sumi'),
--- (6, 'Lviv');
---
--- INSERT INTO route_list
--- VALUES (1, 1, 2, '2022-12-31', 600, 30);
+ insert into profession_list values
+ (1, 'Warrior', 6, 6, 6, 3),
+ (2, 'Mag', 5, 3, 3, 10),
+ (3, 'Archer', 6, 9, 7, 5);
+
+ insert into user_list values
+ (1, 'Vasia', 0, 0, 1);
 --
 -- INSERT INTO route_list
 -- VALUES (2, 3, 5, '2022-12-29', 500, 20);

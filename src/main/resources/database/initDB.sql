@@ -2,17 +2,29 @@
 -- Table `list_of_cities`
 -- -----------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS profession_list (
+  id SERIAL NOT NULL UNIQUE,
+  class VARCHAR(45) NULL,
+  strength INT NULL,
+  dexterity INT NULL,
+  stamina INT NULL,
+  magic INT NULL,
+  PRIMARY KEY (id));
+
 CREATE TABLE IF NOT EXISTS user_list (
   id SERIAL NOT NULL UNIQUE,
   health INT NULL,
   damage INT NULL,
-  name VARCHAR(45) NULL);
+  name VARCHAR(45) NULL,
+  profession_id INT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_profession_list_user_list
+    FOREIGN KEY (profession_id)
+    REFERENCES profession_list(id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
 
---CREATE TABLE IF NOT EXISTS list_of_cities (
---  id SERIAL NOT NULL UNIQUE,
---  city VARCHAR(45) NOT NULL,
---  PRIMARY KEY (id));
 --
 ---- -----------------------------------------------------
 ---- Table `route_list`
