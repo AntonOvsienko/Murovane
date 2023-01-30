@@ -8,30 +8,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Data
 @Entity
+@Table (name = "positive_traits")
 @EqualsAndHashCode (of = "id")
-public class User{
+public class PositiveTrait {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column (name = "name")
-    private String name;
+    @Column (name = "trait")
+    private String trait;
 
-    @Column (name = "health")
-    private Integer health;
-
-    @Column (name = "damage")
-    private Integer damage;
-
-    @ManyToOne
-    @JoinColumn (name = "profession_id")
-    private Profession profession;
+    @Column (name = "description")
+    private String description;
 
 }

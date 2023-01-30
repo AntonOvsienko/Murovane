@@ -17,7 +17,6 @@ public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository routeRepository;
 
-
     @Override
     public List<Route> getAllRoute() {
         List<Route> list = routeRepository.findAll();

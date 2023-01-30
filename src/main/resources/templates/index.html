@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
 </head>
 <body>
 <h1>Сервис покупки и обслуживаню билетов</h1>
-<form method="post" action="/create-character">
-    <input type="submit" value="Создать персонажа"/>
+<form method="post" action="/create-settlement">
+    <label for="quantity">Кол-во поселенцев (10-100):</label>
+    <input type="number" id="quantity" name="quantity" min="10" max="100"/>
+    <input type="submit" value="Создать поселение"/>
 </form>
 <form method="get" action="/pick-character">
     <input type="submit" value="Выбрать существующего"/>
 </form>
+
+<span th:if="${settlement} == null">
+ hello
+</span>
 </body>
 </html>

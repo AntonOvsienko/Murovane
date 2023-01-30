@@ -16,6 +16,5 @@ public interface RouteRepository extends JpaRepository<Route,Integer>, CrudRepos
             " JOIN pbr.output pbro" +
             " JOIN pbr.input pbri" +
             " WHERE p.id = :id")
-
     Route getRouteByPaymentId(@Param ("id") Integer id);
 }

@@ -23,16 +23,7 @@ public class Profession {
     @Column (name = "class")
     private String className;
 
-    @Column (name = "strength")
-    private Integer strength;
-
-    @Column (name = "dexterity")
-    private Integer dexterity;
-
-    @Column (name = "stamina")
-    private Integer stamina;
-
-    @Column (name = "magic")
-    private Integer magic;
+    @Column (name = "")
+    private boolean isMan;
 
 }

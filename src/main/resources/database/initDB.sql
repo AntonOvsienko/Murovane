@@ -2,28 +2,122 @@
 -- Table `list_of_cities`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS profession_list (
+create TABLE IF NOT EXISTS profession_list (
   id SERIAL NOT NULL UNIQUE,
   class VARCHAR(45) NULL,
-  strength INT NULL,
-  dexterity INT NULL,
-  stamina INT NULL,
-  magic INT NULL,
   PRIMARY KEY (id));
 
-CREATE TABLE IF NOT EXISTS user_list (
+create TABLE IF NOT EXISTS man_name_list (
   id SERIAL NOT NULL UNIQUE,
-  health INT NULL,
-  damage INT NULL,
   name VARCHAR(45) NULL,
+  PRIMARY KEY (id));
+
+create TABLE IF NOT EXISTS woman_name_list (
+  id SERIAL NOT NULL UNIQUE,
+  name VARCHAR(45) NULL,
+  PRIMARY KEY (id));
+
+create TABLE IF NOT EXISTS surname_list (
+  id SERIAL NOT NULL UNIQUE,
+  surname VARCHAR(45) NULL,
+  PRIMARY KEY (id));
+
+create TABLE IF NOT EXISTS settlement_list (
+  id SERIAL NOT NULL UNIQUE,
+  name VARCHAR(45) NULL,
+  start_time DATE NULL,
+  last_time DATE NULL,
+  PRIMARY KEY (id));
+
+create TABLE IF NOT EXISTS man_list (
+  id SERIAL NOT NULL UNIQUE,
+  name_id INT NULL,
+  surname_id INT NULL,
+  health INT NULL,
+  date_born DATE NULL,
   profession_id INT NULL,
+  settlement_id INT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_profession_list_user_list
+  CONSTRAINT fk_profession_list_men_list
     FOREIGN KEY (profession_id)
     REFERENCES profession_list(id)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON delete NO ACTION
+    ON update NO ACTION,
+  CONSTRAINT fk_name_list_man_list
+    FOREIGN KEY (name_id)
+    REFERENCES man_name_list(id)
+    ON delete NO ACTION
+    ON update NO ACTION,
+  CONSTRAINT fk_surname_list_man_list
+    FOREIGN KEY (surname_id)
+    REFERENCES surname_list(id)
+    ON delete NO ACTION
+    ON update NO ACTION,
+  CONSTRAINT fk_settlement_list_man_list
+    FOREIGN KEY (settlement_id)
+    REFERENCES settlement_list(id)
+    ON delete NO ACTION
+    ON update NO ACTION);
 
+create TABLE IF NOT EXISTS woman_list (
+  id SERIAL NOT NULL UNIQUE,
+  name_id INT NULL,
+  surname_id INT NULL,
+  health INT NULL,
+  date_born DATE NULL,
+  profession_id INT NULL,
+  settlement_id INT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_profession_list_woman_list
+    FOREIGN KEY (profession_id)
+    REFERENCES profession_list(id)
+    ON delete NO ACTION
+    ON update NO ACTION,
+  CONSTRAINT fk_settlement_list_woman_list
+    FOREIGN KEY (settlement_id)
+    REFERENCES settlement_list(id)
+    ON delete NO ACTION
+    ON update NO ACTION,
+  CONSTRAINT fk_name_list_woman_list
+    FOREIGN KEY (name_id)
+    REFERENCES woman_name_list(id)
+    ON delete NO ACTION
+    ON update NO ACTION,
+  CONSTRAINT fk_surname_list_woman_list
+    FOREIGN KEY (surname_id)
+    REFERENCES surname_list(id)
+    ON delete NO ACTION
+    ON update NO ACTION);
+
+
+
+--create TABLE IF NOT EXISTS negative_traits (
+--  id SERIAL NOT NULL UNIQUE,
+--  trait VARCHAR(45) NULL,
+--  description VARCHAR(45) NULL);
+--
+--create TABLE IF NOT EXISTS positive_traits (
+--  id SERIAL NOT NULL UNIQUE,
+--  trait VARCHAR(45) NULL,
+--  description VARCHAR(45) NULL);
+
+--create TABLE IF NOT EXISTS individual_negative_traits (
+--  individual_id INT NOT NULL,
+--  negative_traits_id INT NOT NULL,
+--  primary key (individual_id, negative_traits_id),
+--  FOREIGN KEY (individual_id)
+--        REFERENCES man_list(id),
+--  FOREIGN KEY (negative_traits_id)
+--        REFERENCES negative_traits(id)) ENGINE=InnoDB;
+--
+--create TABLE IF NOT EXISTS individual_positive_traits (
+--  individual_id INT NOT NULL,
+--  positive_traits_id INT NOT NULL,
+--  primary key (individual_id, positive_traits_id),
+--  FOREIGN KEY (individual_id)
+--        REFERENCES woman_list(id),
+--  FOREIGN KEY (positive_traits_id)
+--        REFERENCES positive_traits(id)) ENGINE=InnoDB;
 
 --
 ---- -----------------------------------------------------

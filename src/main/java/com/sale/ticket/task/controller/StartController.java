@@ -1,13 +1,12 @@
 package com.sale.ticket.task.controller;
 
+import com.sale.ticket.task.facade.SettlementFacade;
 import com.sale.ticket.task.model.*;
 import com.sale.ticket.task.service.BilletService;
 import com.sale.ticket.task.service.PaymentService;
 import com.sale.ticket.task.service.RouteService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import net.bytebuddy.implementation.bind.annotation.Default;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,30 +14,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
-public class LogicController {
+public class StartController {
 
     private final BilletService billetService;
     private final PaymentService paymentService;
     private final RouteService routeService;
+    private final SettlementFacade settlementFacade;
 
     @RequestMapping ("/")
     public String showFirstPage() {
         return "index.html";
     }
 
-    @PostMapping ("/route-list")
-    public String showAllRoute(Model model) {
-        List<Route> routeList = routeService.getAllRoute();
-        model.addAttribute("routeList", routeList);
-        model.addAttribute("billetPresent", false);
+    @PostMapping ("/create-settlement")
+    public String showAllRoute(Model model, @RequestParam ("quantity") @NonNull Integer quantity) {
+        Settlement settlement = settlementFacade.createSettler(quantity);
+        model.addAttribute("settlement", settlement);
 
-        return "route-list.html";
+        return "index.html";
     }
 
     @GetMapping ("/ticket-info")
@@ -56,11 +53,8 @@ public class LogicController {
     }
 
     @PostMapping ("/service-payment/buy")
-    public String addPay(Model model, @RequestParam ("id") @NonNull Integer id,
-                         @RequestParam ("name") @NonNull String name,
-                         @RequestParam ("surname") @NonNull String surname,
-                         @RequestParam ("patronomic") @NonNull String patronimic) {
-        if (paymentService.getPaymentByIdBilletAndInitial(id, name, surname, patronimic)){
+    public String addPay(Model model, @RequestParam ("id") @NonNull Integer id, @RequestParam ("name") @NonNull String name, @RequestParam ("surname") @NonNull String surname, @RequestParam ("patronomic") @NonNull String patronimic) {
+        if (paymentService.getPaymentByIdBilletAndInitial(id, name, surname, patronimic)) {
             model.addAttribute("paymentMessage", "Платёж прошёл удачно");
         } else {
             model.addAttribute("paymentMessage", "Указанный билет на указанного пассажира не найден");

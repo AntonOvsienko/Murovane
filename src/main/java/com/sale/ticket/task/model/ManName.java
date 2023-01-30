@@ -1,21 +1,24 @@
 package com.sale.ticket.task.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table (name = "man_name_list")
 @EqualsAndHashCode (of = "id")
-public class User{
+public class ManName {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -23,15 +26,4 @@ public class User{
 
     @Column (name = "name")
     private String name;
-
-    @Column (name = "health")
-    private Integer health;
-
-    @Column (name = "damage")
-    private Integer damage;
-
-    @ManyToOne
-    @JoinColumn (name = "profession_id")
-    private Profession profession;
-
 }

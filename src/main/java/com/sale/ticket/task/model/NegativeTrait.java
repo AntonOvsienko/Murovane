@@ -8,19 +8,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Data
 @Entity
+@Table (name = "negative_traits")
 @EqualsAndHashCode (of = "id")
-public abstract class BaseParameter {
+public class NegativeTrait {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column (name = "health")
-    private Integer health;
+    @Column (name = "trait")
+    private String trait;
+
+    @Column (name = "description")
+    private String description;
 
 }
