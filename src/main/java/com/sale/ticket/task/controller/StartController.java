@@ -26,16 +26,38 @@ public class StartController {
     private final SettlementFacade settlementFacade;
 
     @RequestMapping ("/")
-    public String showFirstPage() {
+    public String showFirstPage(Model model) {
+        List<Settlement> settlementList = settlementFacade.getSettlementList();
+        if (settlementList!=null){
+            model.addAttribute("settlementList", settlementList);
+        }
+
         return "index.html";
     }
 
     @PostMapping ("/create-settlement")
-    public String showAllRoute(Model model, @RequestParam ("quantity") @NonNull Integer quantity) {
-        Settlement settlement = settlementFacade.createSettler(quantity);
+    public String createSettlement(Model model, @RequestParam ("quantity") @NonNull Integer quantity, @RequestParam ("name") @NonNull String name) {
+        Settlement settlement = settlementFacade.createSettlement(quantity, name);
+        System.out.println("Man size - " + settlement.getMen().size());
+        System.out.println("Woman size - " + settlement.getWomen().size());
+        System.out.println("Name - " + settlement.getName());
         model.addAttribute("settlement", settlement);
 
         return "index.html";
+    }
+
+    @PostMapping ("/delete-settlement")
+    public String deleteSettlement(Model model, @RequestParam ("id") @NonNull Integer id) {
+//        settlementFacade.deleteSettlement(id);
+
+        return "redirect:/";
+    }
+
+    @PostMapping ("/choose-settlement")
+    public String chooseSettlement(Model model, @RequestParam ("id") @NonNull Integer id) {
+        //        settlementFacade.deleteSettlement(id);
+
+        return "redirect:/";
     }
 
     @GetMapping ("/ticket-info")

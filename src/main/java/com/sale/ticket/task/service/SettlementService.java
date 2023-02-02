@@ -9,7 +9,10 @@ public interface SettlementService {
 
     Settlement createSettler(Settlement settlement);
 
-    void updateSettler(Settlement settlement);
+    Settlement updateSettler(Settlement settlement);
 
+    Settlement getSettlementById(Integer id);
+
+    List<Settlement> getSettlementList();
 
 }

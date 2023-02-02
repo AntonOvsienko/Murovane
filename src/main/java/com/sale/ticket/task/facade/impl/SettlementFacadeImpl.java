@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,15 +48,8 @@ public class SettlementFacadeImpl implements SettlementFacade {
 
     @Transactional
     @Override
-    public Settlement createSettler(Integer quantity) {
-        Settlement settlement = addSettler(quantity);
-        return settlement;
-    }
-
-    private Settlement addSettler(Integer quantity) {
+    public Settlement createSettlement(Integer quantity, String name) {
         Settlement settlement = settlementRepository.save(new Settlement());
-        List<Man> manList = new ArrayList<>();
-        List<Woman> womanList = new ArrayList<>();
         List<ManName> manNameList = manNameService.getListManName();
         List<WomanName> womanNameList = womanNameService.getListWomanName();
         List<Surname> surnameList = surnameService.getListSurname();
@@ -63,9 +57,18 @@ public class SettlementFacadeImpl implements SettlementFacade {
         for (int i = 0; i < quantity; i++) {
             addNewIndividual(settlement, manNameList, womanNameList, surnameList);
         }
-        settlement.setMen(manList);
-        settlement.setWomen(womanList);
-        return settlement;
+        settlement.setName(name);
+        return settlementService.updateSettler(settlement);
+    }
+
+    @Override
+    public Settlement getSettlerById(Integer id) {
+        return settlementService.getSettlementById(id);
+    }
+
+    @Override
+    public List<Settlement> getSettlementList() {
+        return settlementService.getSettlementList();
     }
 
     private void addNewIndividual(Settlement settlement, List<ManName> manNameList, List<WomanName> womanNameList, List<Surname> surnameList) {
@@ -82,6 +85,7 @@ public class SettlementFacadeImpl implements SettlementFacade {
             man.setDateBorn(bornDate(age));
             man.setSettlement(settlement);
             manService.addMan(man);
+            settlement.getMen().add(man);
         } else {
             Woman woman = new Woman();
             woman.setName(womanNameList.get(womanListCount));
@@ -90,6 +94,7 @@ public class SettlementFacadeImpl implements SettlementFacade {
             woman.setDateBorn(bornDate(age));
             woman.setSettlement(settlement);
             womanService.addWoman(woman);
+            settlement.getWomen().add(woman);
         }
     }
 

@@ -42,10 +42,6 @@ public abstract class Individual {
     @JoinColumn (name = "profession_id")
     private Profession profession;
 
-    @ManyToOne
-    @JoinColumn (name = "settlement_id")
-    private Settlement settlement;
-
 
 //    @ManyToMany
 //    @JoinTable (name = "individual_negative",

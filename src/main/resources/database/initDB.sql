@@ -4,7 +4,7 @@
 
 create TABLE IF NOT EXISTS profession_list (
   id SERIAL NOT NULL UNIQUE,
-  class VARCHAR(45) NULL,
+  classname VARCHAR(45) NULL,
   PRIMARY KEY (id));
 
 create TABLE IF NOT EXISTS man_name_list (

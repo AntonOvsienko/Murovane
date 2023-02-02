@@ -17,7 +17,7 @@ public class WomanServiceImpl implements WomanService {
 
     @Transactional
     public Integer addWoman(Woman woman) {
-        woman = womanRepository.saveAndFlush(woman);
+        woman = womanRepository.save(woman);
         return woman.getId();
     }
 

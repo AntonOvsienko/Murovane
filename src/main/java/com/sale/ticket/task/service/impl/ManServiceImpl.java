@@ -16,7 +16,7 @@ public class ManServiceImpl implements ManService {
 
     @Transactional
     public Integer addMan(Man man) {
-        man = manRepository.saveAndFlush(man);
+        man = manRepository.save(man);
         return man.getId();
     }
 

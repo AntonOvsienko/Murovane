@@ -3,19 +3,64 @@
 <head>
     <meta charset="UTF-8"/>
 </head>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+
+</style>
 <body>
 <h1>Сервис покупки и обслуживаню билетов</h1>
+
+<span th:if="{settlementList} != null">
+    <form>
+        <label for="id">Выбрать поселение:</label>
+        <select id="id" name="id">
+            <option th:each="man : ${settlement.men}" value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="fiat">Fiat</option>
+            <option value="audi">Audi</option>
+        </select>
+        <input type="submit" value="Выбрать поселение" formaction="/choose-settlement" formmethod="get">
+        <input type="submit" value="Удалить поселение" formaction="/delete-settlement" formmethod="post">
+    </form>
+</span>
+
 <form method="post" action="/create-settlement">
     <label for="quantity">Кол-во поселенцев (10-100):</label>
-    <input type="number" id="quantity" name="quantity" min="10" max="100"/>
+    <input type="number" id="quantity" name="quantity" min="10" max="100" required/>
+    <input type="text" name="name" required/>
     <input type="submit" value="Создать поселение"/>
 </form>
-<form method="get" action="/pick-character">
-    <input type="submit" value="Выбрать существующего"/>
-</form>
+<!--<form method="get" action="/pick-character">-->
+<!--    <input type="submit" value="Выбрать существующего"/>-->
+<!--</form>-->
 
-<span th:if="${settlement} == null">
- hello
+<span th:if="${settlement} != null">
+ <table>
+     <tr>
+         <td>Имя</td>
+         <td>Фамилия</td>
+         <td>Возраст</td>
+         <td>Профессия</td>
+     </tr>
+     <tr th:each="man : ${settlement.men}">
+         <td th:text="${man.name.name}"/>
+         <td th:text="${man.surname.surname}"/>
+         <td th:text="${man.dateBorn}"/>
+         <span>
+             <td th:if="${man.profession} != null" th:text="${man.profession.className}"/>
+         </span>
+     </tr>
+          <tr th:each="woman : ${settlement.women}">
+              <td th:text="${woman.name}"/>
+              <td th:text="${woman.surname}"/>
+              <td th:text="${woman.dateBorn}"/>
+              <span th:if="${woman.profession} != null">
+                  <td th:text="${woman.profession.className}"/>
+              </span>
+          </tr>
+ </table>
 </span>
 </body>
 </html>

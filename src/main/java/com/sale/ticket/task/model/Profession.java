@@ -20,10 +20,10 @@ public class Profession {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column (name = "class")
+    @Column (name = "classname")
     private String className;
 
-    @Column (name = "")
-    private boolean isMan;
+//    @Column (name = "")
+//    private boolean isMan;
 
 }
