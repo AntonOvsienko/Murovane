@@ -14,7 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,11 +35,11 @@ public class Settlement {
     @Column (name = "name")
     private String name;
 
-    @Column (name = "start_time")
-    private Date startTime;
-
     @Column (name = "last_time")
-    private Date lastTime;
+    private LocalDateTime lastTime;
+
+    @Column (name = "settlement_time")
+    private LocalDate settlementTime;
 
     @Cascade (value = {org.hibernate.annotations.CascadeType.ALL})
     @OneToMany (mappedBy = "settlement", fetch = FetchType.LAZY)

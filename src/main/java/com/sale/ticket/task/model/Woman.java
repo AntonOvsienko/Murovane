@@ -37,6 +37,12 @@ public class Woman extends Individual {
     @JoinColumn (name = "settlement_id")
     private Settlement settlement;
 
+    @Column (name = "pregnant_status")
+    private Boolean pregnant;
+
+    @Column (name = "pregnant_duration")
+    private Integer pregnantDuration;
+
     //    @ManyToMany
     //    @JoinTable (name = "woman_negative",
     //            joinColumns = {@JoinColumn (name = "woman_list")},

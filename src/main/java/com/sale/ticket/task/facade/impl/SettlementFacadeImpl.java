@@ -19,13 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @AllArgsConstructor
@@ -53,7 +50,8 @@ public class SettlementFacadeImpl implements SettlementFacade {
         List<ManName> manNameList = manNameService.getListManName();
         List<WomanName> womanNameList = womanNameService.getListWomanName();
         List<Surname> surnameList = surnameService.getListSurname();
-        settlement.setStartTime(Calendar.getInstance().getTime());
+        settlement.setLastTime(LocalDateTime.now());
+        settlement.setSettlementTime(LocalDate.of(100,1,1));
         for (int i = 0; i < quantity; i++) {
             addNewIndividual(settlement, manNameList, womanNameList, surnameList);
         }
@@ -71,6 +69,36 @@ public class SettlementFacadeImpl implements SettlementFacade {
         return settlementService.getSettlementList();
     }
 
+    @Transactional
+    @Override
+    public void deleteSettlement(Integer settlement) {
+        settlementService.deleteSettlement(settlement);
+    }
+
+    @Transactional
+    @Override
+    public Settlement updateSettlerById(Integer id) {
+        Settlement settlement = settlementService.getSettlementById(id);
+        Integer countMonth = getCountMonth(settlement);
+        for (int i=0;i < countMonth;i++){
+
+        }
+        updateDate(settlement, countMonth);
+        settlementService.updateSettler(settlement);
+        return settlement;
+    }
+
+    private void updateDate(Settlement settlement, Integer countMonth) {
+        LocalDate date = settlement.getSettlementTime();
+        settlement.setSettlementTime(date.plusMonths(countMonth));
+        settlement.setLastTime(LocalDateTime.now());
+    }
+
+    private Integer getCountMonth(Settlement settlement) {
+        long seconds = (LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0)) - settlement.getLastTime().toEpochSecond(ZoneOffset.ofHours(0)));
+        return (int) (seconds * 12 / 60);
+    }
+
     private void addNewIndividual(Settlement settlement, List<ManName> manNameList, List<WomanName> womanNameList, List<Surname> surnameList) {
         int sex = (int) (Math.random() * 2);
         int age = (int) (Math.random() * 45) + 2;
@@ -82,8 +110,9 @@ public class SettlementFacadeImpl implements SettlementFacade {
             man.setName(manNameList.get(manListCount));
             man.setSurname(surnameList.get(surnameListCount));
             man.setHealth(5);
-            man.setDateBorn(bornDate(age));
+            man.setDateBorn(settlementService.bornDate(age,settlement.getSettlementTime()));
             man.setSettlement(settlement);
+            man.setIsLife(Boolean.TRUE);
             manService.addMan(man);
             settlement.getMen().add(man);
         } else {
@@ -91,18 +120,12 @@ public class SettlementFacadeImpl implements SettlementFacade {
             woman.setName(womanNameList.get(womanListCount));
             woman.setSurname(surnameList.get(surnameListCount));
             woman.setHealth(5);
-            woman.setDateBorn(bornDate(age));
+            woman.setDateBorn(settlementService.bornDate(age,settlement.getSettlementTime()));
             woman.setSettlement(settlement);
+            woman.setIsLife(Boolean.TRUE);
+            woman.setPregnant(Boolean.FALSE);
             womanService.addWoman(woman);
             settlement.getWomen().add(woman);
         }
-    }
-
-    private Date bornDate(int age) {
-        int hundredYears = 365 / 2;
-        LocalDate localDate = LocalDate.ofEpochDay(ThreadLocalRandom.current().nextInt(-hundredYears, hundredYears));
-        Calendar calendar = Calendar.getInstance();
-        return new Date(calendar.getTime().getYear() - age, localDate.getMonthValue(), localDate.getDayOfMonth());
-
     }
 }

@@ -25,13 +25,14 @@ create TABLE IF NOT EXISTS surname_list (
 create TABLE IF NOT EXISTS settlement_list (
   id SERIAL NOT NULL UNIQUE,
   name VARCHAR(45) NULL,
-  start_time DATE NULL,
-  last_time DATE NULL,
+  last_time timestamp NULL,
+  settlement_time timestamp NULL,
   PRIMARY KEY (id));
 
 create TABLE IF NOT EXISTS man_list (
   id SERIAL NOT NULL UNIQUE,
   name_id INT NULL,
+  is_life BOOL NULL,
   surname_id INT NULL,
   health INT NULL,
   date_born DATE NULL,
@@ -62,9 +63,12 @@ create TABLE IF NOT EXISTS man_list (
 create TABLE IF NOT EXISTS woman_list (
   id SERIAL NOT NULL UNIQUE,
   name_id INT NULL,
+  is_life BOOL NULL,
   surname_id INT NULL,
   health INT NULL,
   date_born DATE NULL,
+  pregnant_status BOOL NULL,
+  pregnant_duration INT NULL,
   profession_id INT NULL,
   settlement_id INT NULL,
   PRIMARY KEY (id),

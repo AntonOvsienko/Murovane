@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+table, th, td {
+border:1px solid black;
+}
+
+th, td {
+padding: 5px;
+
+</style>
+<body>
+<span th:if="${settlement} != null">
+    <p th:text="${settlement.lastUpdateTime}"/>
+    </br>
+    <table>
+        <tr>
+            <td>Кол-во жителей</td>
+            <td th:text="${settlement.men.size}+${settlement.boy.size}+${settlement.women.size}+${settlement.girl.size}"/></td>
+        </tr>
+        <tr>
+            <td>Средний возраст</td>
+            <td th:text="${settlement.medianAge}"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">Кол-во взрослых</td>
+        </tr>
+        <tr>
+            <td>Женщины</td>
+            <td th:text="${settlement.women.size}"/></td>
+        </tr>
+        <tr>
+            <td>Мужчины</td>
+            <td th:text="${settlement.men.size}"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">Кол-во детей</td>
+        </tr>
+        <tr>
+            <td>Девочки</td>
+            <td th:text="${settlement.girl.size}"/></td>
+        </tr>
+        <tr>
+            <td>Мальчики</td>
+            <td th:text="${settlement.boy.size}"/></td>
+        </tr>
+    </table>
+</span>
+</br>
+<form id="settlement">
+    <input type="submit" value="Назад" formaction="/" formmethod="get">
+</form>
+<form method="post" action="/update-settlement">
+    <input type="hidden" name="id" th:value='${settlement.id}'/>
+    <input type="submit" value="Обновить"/>
+</form>
+</body>
+</html>

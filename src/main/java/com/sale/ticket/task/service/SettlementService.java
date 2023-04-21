@@ -3,6 +3,8 @@ package com.sale.ticket.task.service;
 import com.sale.ticket.task.model.Individual;
 import com.sale.ticket.task.model.Settlement;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface SettlementService {
@@ -15,4 +17,7 @@ public interface SettlementService {
 
     List<Settlement> getSettlementList();
 
+    void deleteSettlement(Integer settlement);
+
+    LocalDate bornDate(int age, LocalDate settlement);
 }

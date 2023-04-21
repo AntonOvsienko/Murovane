@@ -8,59 +8,68 @@ table, th, td {
   border:1px solid black;
 }
 
+th, td {
+  padding: 5px;
+
 </style>
 <body>
 <h1>Сервис покупки и обслуживаню билетов</h1>
 
-<span th:if="{settlementList} != null">
-    <form>
-        <label for="id">Выбрать поселение:</label>
-        <select id="id" name="id">
-            <option th:each="man : ${settlement.men}" value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="fiat">Fiat</option>
-            <option value="audi">Audi</option>
-        </select>
+<span th:if="${settlementList} != null">
+    <form id="settlement">
+    <label for="id">Выбрать поселение:</label>
+    <select id="id" name="id">
+            <tr th:each="settlement : ${settlementList}">
+            <option th:value='${settlement.id}'/><td th:text="${settlement.name}"/>
+                </option>
+            </tr>
+    </select>
         <input type="submit" value="Выбрать поселение" formaction="/choose-settlement" formmethod="get">
         <input type="submit" value="Удалить поселение" formaction="/delete-settlement" formmethod="post">
     </form>
 </span>
-
+</br>
 <form method="post" action="/create-settlement">
     <label for="quantity">Кол-во поселенцев (10-100):</label>
     <input type="number" id="quantity" name="quantity" min="10" max="100" required/>
     <input type="text" name="name" required/>
     <input type="submit" value="Создать поселение"/>
 </form>
-<!--<form method="get" action="/pick-character">-->
-<!--    <input type="submit" value="Выбрать существующего"/>-->
-<!--</form>-->
-
+</br>
 <span th:if="${settlement} != null">
- <table>
-     <tr>
-         <td>Имя</td>
-         <td>Фамилия</td>
-         <td>Возраст</td>
-         <td>Профессия</td>
-     </tr>
-     <tr th:each="man : ${settlement.men}">
-         <td th:text="${man.name.name}"/>
-         <td th:text="${man.surname.surname}"/>
-         <td th:text="${man.dateBorn}"/>
-         <span>
-             <td th:if="${man.profession} != null" th:text="${man.profession.className}"/>
-         </span>
-     </tr>
-          <tr th:each="woman : ${settlement.women}">
-              <td th:text="${woman.name}"/>
-              <td th:text="${woman.surname}"/>
-              <td th:text="${woman.dateBorn}"/>
-              <span th:if="${woman.profession} != null">
-                  <td th:text="${woman.profession.className}"/>
-              </span>
-          </tr>
- </table>
+    <table>
+        <tr>
+            <td>Имя</td>
+            <td>Фамилия</td>
+            <td>Дата(Возраст)</td>
+            <td>Профессия</td>
+        </tr>
+        <tr th:each="man : ${settlement.men}">
+            <td th:text="${man.name.name}"/>
+            <td th:text="${man.surname.surname}"/>
+            <td><span th:text="${{man.dateBorn}}"/>(<span th:text="${man.age}"/>)</td>
+            <span>
+                <td th:if="${man.profession} != null" th:text="${man.profession.className}"/>
+            </span>
+        </tr>
+    </table>
+    </br>
+    <table>
+        <tr>
+            <td>Имя</td>
+            <td>Фамилия</td>
+            <td>Дата(Возраст)</td>
+            <td>Профессия</td>
+        </tr>
+        <tr th:each="woman : ${settlement.women}">
+            <td th:text="${woman.name.name}"/>
+            <td th:text="${woman.surname.surname}"/>
+            <td><span th:text="${{woman.dateBorn}}"/>(<span th:text="${woman.age}"/>)</td>
+            <span>
+                <td th:if="${woman.profession} != null" th:text="${woman.profession.className}"/>
+            </span>
+        </tr>
+    </table>
 </span>
 </body>
 </html>

@@ -2,25 +2,15 @@ package com.sale.ticket.task.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -32,7 +22,7 @@ public abstract class Individual {
     private Integer health;
 
     @Column (name = "date_born")
-    private Date dateBorn;
+    private LocalDate dateBorn;
 
     @ManyToOne
     @JoinColumn (name = "surname_id")
@@ -41,6 +31,9 @@ public abstract class Individual {
     @ManyToOne
     @JoinColumn (name = "profession_id")
     private Profession profession;
+
+    @Column (name = "is_life")
+    private Boolean isLife;
 
 
 //    @ManyToMany
@@ -55,4 +48,8 @@ public abstract class Individual {
 //            inverseJoinColumns = {@JoinColumn(name = "positive_traits")})
 //    private List<PositiveTrait> individualPositive = new ArrayList<>();
 
+    @DateTimeFormat (pattern="dd-MMM-YYYY")
+    public LocalDate getDateBorn() {
+        return dateBorn;
+    }
 }

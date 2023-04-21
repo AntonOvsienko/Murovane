@@ -12,5 +12,7 @@ public interface SettlementFacade {
 
     List<Settlement> getSettlementList();
 
-    void deleteSettlement(Integer id);
+    void deleteSettlement(Integer settlement);
+
+    Settlement updateSettlerById(Integer id);
 }
