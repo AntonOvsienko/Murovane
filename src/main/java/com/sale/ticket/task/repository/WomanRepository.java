@@ -21,6 +21,6 @@ public interface WomanRepository extends JpaRepository<Woman,Integer>, CrudRepos
     List<Woman> getWomanMarriedNotPregnant(@Param ("id") Integer id);
 
     @Query (value = "SELECT w FROM Woman w" +
-            " WHERE (w.settlement.id = :id AND w.pregnant IS TRUE")
+            " WHERE (w.settlement.id = :id AND w.pregnant IS TRUE)")
     List<Woman> getWomanPregnant(@Param ("id") Integer id);
 }

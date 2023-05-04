@@ -29,10 +29,7 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Override
     public Settlement getSettlementById(Integer id) {
-        Settlement settlement = settlementRepository.getReferenceById(id);
-        settlement.setWomen(settlement.getWomen().stream().filter(Individual::getIsLife).collect(Collectors.toList()));
-        settlement.setMen(settlement.getMen().stream().filter(Individual::getIsLife).collect(Collectors.toList()));
-        return settlement;
+        return settlementRepository.getReferenceById(id);
     }
 
     @Override

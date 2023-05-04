@@ -84,12 +84,12 @@ public class SettlementFacadeImpl implements SettlementFacade {
         for (int i = 0; i < countMonth; i++) {
             countMarried = married(settlement, countMarried);
             countPregnant = pregnant(settlement, countPregnant);
-            countBaby = childbirth(settlement, countPregnant);
+            countBaby = childbirth(settlement, countBaby);
         }
         messages.add("Кол-во браков за истекший период - " + countMarried);
         messages.add("Кол-во новых беременностей за истекший период - " + countPregnant);
-        messages.add("Кол-во новорожденные за истекший период - " + countBaby);
-        settlementService.updateSettler(settlement);
+        messages.add("Кол-во новорожденных за истекший период - " + countBaby);
+        settlement = settlementService.updateSettler(settlement);
         return settlement;
     }
 
@@ -117,7 +117,7 @@ public class SettlementFacadeImpl implements SettlementFacade {
     private Integer pregnant(Settlement settlement, Integer countPregnant) {
         List<Woman> listWoman = womanService.getWomanMarriedNotPregnant(settlement.getId());
         for (int i = 0; i < listWoman.size(); i++) {
-            int random = (int) (Math.random() * 6);
+            int random = (int) (Math.random() * 8);
             if (random == 0) {
                 countPregnant++;
                 Woman currentWoman = listWoman.get(i);
@@ -181,7 +181,6 @@ public class SettlementFacadeImpl implements SettlementFacade {
             man.setHealth(5);
             man.setDateBorn(settlementService.bornDate(age, settlement.getSettlementTime()));
             man.setSettlement(settlement);
-            man.setIsLife(Boolean.TRUE);
             manService.addMan(man);
             settlement.getMen().add(man);
         } else {
@@ -191,7 +190,7 @@ public class SettlementFacadeImpl implements SettlementFacade {
             woman.setHealth(5);
             woman.setDateBorn(settlementService.bornDate(age, settlement.getSettlementTime()));
             woman.setSettlement(settlement);
-            woman.setIsLife(Boolean.TRUE);
+            woman.setPregnantDuration(0);
             woman.setPregnant(Boolean.FALSE);
             womanService.addWoman(woman);
             settlement.getWomen().add(woman);

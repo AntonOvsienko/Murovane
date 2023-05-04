@@ -32,7 +32,6 @@ create TABLE IF NOT EXISTS settlement_list (
 create TABLE IF NOT EXISTS woman_list (
   id SERIAL NOT NULL UNIQUE,
   name_id INT NULL,
-  is_life BOOL NULL,
   surname_id INT NULL,
   health INT NULL,
   date_born DATE NULL,
@@ -65,7 +64,6 @@ create TABLE IF NOT EXISTS woman_list (
 create TABLE IF NOT EXISTS man_list (
   id SERIAL NOT NULL UNIQUE,
   name_id INT NULL,
-  is_life BOOL NULL,
   surname_id INT NULL,
   health INT NULL,
   date_born DATE NULL,

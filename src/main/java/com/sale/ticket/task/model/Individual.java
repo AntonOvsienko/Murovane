@@ -5,15 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -34,10 +30,6 @@ public abstract class Individual {
     @ManyToOne
     @JoinColumn (name = "profession_id")
     private Profession profession;
-
-    @Column (name = "is_life")
-    private Boolean isLife;
-
 
 //    @ManyToMany
 //    @JoinTable (name = "individual_negative",
