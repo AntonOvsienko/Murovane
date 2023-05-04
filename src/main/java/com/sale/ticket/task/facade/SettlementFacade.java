@@ -14,5 +14,5 @@ public interface SettlementFacade {
 
     void deleteSettlement(Integer settlement);
 
-    Settlement updateSettlerById(Integer id);
+    Settlement updateSettlerById(Integer id, List<String> messages);
 }

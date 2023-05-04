@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class Woman extends Individual {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @ManyToOne
@@ -42,6 +47,15 @@ public class Woman extends Individual {
 
     @Column (name = "pregnant_duration")
     private Integer pregnantDuration;
+
+    @OneToOne(mappedBy = "wife")
+    private Man husband;
+//
+//    @OneToMany (mappedBy = "father", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Man> sons;
+//
+//    @OneToMany (mappedBy = "mother", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Woman> daughters;
 
     //    @ManyToMany
     //    @JoinTable (name = "woman_negative",

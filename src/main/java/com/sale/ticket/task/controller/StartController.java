@@ -1,6 +1,6 @@
 package com.sale.ticket.task.controller;
 
-import com.sale.ticket.task.converters.SettlementConverter;
+import com.sale.ticket.task.converters.impl.SettlementConverterImpl;
 import com.sale.ticket.task.domen.model.SettlementOverview;
 import com.sale.ticket.task.facade.SettlementFacade;
 import com.sale.ticket.task.model.*;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,7 +21,7 @@ import java.util.List;
 public class StartController {
 
     private final SettlementFacade settlementFacade;
-    private final SettlementConverter settlementConverter;
+    private final SettlementConverterImpl settlementConverter;
 
     @RequestMapping ("/")
     public String showFirstPage(Model model) {
@@ -72,12 +73,15 @@ public class StartController {
 
     @PostMapping ("/update-settlement")
     public String updateSettlement(Model model, @RequestParam ("id") @NonNull Integer id) {
-        Settlement settlement = settlementFacade.updateSettlerById(id);
+        List<String> messages = new ArrayList<>();
+        Settlement settlement = settlementFacade.updateSettlerById(id, messages);
         if (settlement != null) {
             SettlementOverview settlementOverview = settlementConverter.convert(settlement);
             model.addAttribute("settlement", settlementOverview);
+            model.addAttribute("messages", messages);
         } else {
             model.addAttribute("settlement", null);
+            model.addAttribute("messages", null);
         }
 
         return "settlement.html";

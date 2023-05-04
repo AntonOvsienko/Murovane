@@ -49,6 +49,12 @@ padding: 5px;
             <td th:text="${settlement.boy.size}"/></td>
         </tr>
     </table>
+
+</span>
+<span th:if="${messages} != null">
+    <tr th:each="message : ${messages}">
+            <p th:text="${message}">
+    </tr>
 </span>
 </br>
 <form id="settlement">
