@@ -37,6 +37,8 @@ create TABLE IF NOT EXISTS woman_list (
   date_born DATE NULL,
   pregnant_status BOOL NULL,
   pregnant_duration INT NULL,
+  pregnant_recess INT NULL,
+  count_baby INT NULL,
   profession_id INT NULL,
   settlement_id INT NULL,
   PRIMARY KEY (id),
