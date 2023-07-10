@@ -56,5 +56,10 @@ public class ManServiceImpl implements ManService {
         manRepository.save(man);
     }
 
+    @Override
+    public void deleteMan(Man man) {
+        manRepository.deleteById(man.getId());
+    }
+
 
 }

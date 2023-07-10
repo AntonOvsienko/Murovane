@@ -15,4 +15,8 @@ public interface WomanService {
     List<Woman> getWomanMarriedNotPregnant(Integer id);
 
     List<Woman> getWomanPregnant(Integer id);
+
+    List<Woman> getWomanOnPregnantRecess(Integer id);
+
+    void deleteWoman(Woman woman);
 }

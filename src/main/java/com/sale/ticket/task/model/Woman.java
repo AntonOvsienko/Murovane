@@ -48,6 +48,12 @@ public class Woman extends Individual {
     @Column (name = "pregnant_duration")
     private Integer pregnantDuration;
 
+    @Column (name = "pregnant_recess")
+    private Integer pregnantRecess;
+
+    @Column (name = "count_baby")
+    private Integer countBaby;
+
     @OneToOne(mappedBy = "wife")
     private Man husband;
 //

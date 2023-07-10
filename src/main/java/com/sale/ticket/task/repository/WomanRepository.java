@@ -16,11 +16,15 @@ public interface WomanRepository extends JpaRepository<Woman,Integer>, CrudRepos
     List<Woman> getWomanUnderMarried(@Param ("id") Integer id);
 
     @Query (value = "SELECT w FROM Woman w" +
-            " WHERE (w.settlement.id = :id AND w.pregnant IS FALSE) AND EXISTS (" +
-            " SELECT m FROM Man m WHERE m.wife.id = w.id)")
+            " WHERE (w.settlement.id = :id AND w.pregnant IS FALSE AND w.pregnantRecess = 0)" +
+            " AND EXISTS (SELECT m FROM Man m WHERE m.wife.id = w.id)")
     List<Woman> getWomanMarriedNotPregnant(@Param ("id") Integer id);
 
     @Query (value = "SELECT w FROM Woman w" +
             " WHERE (w.settlement.id = :id AND w.pregnant IS TRUE)")
     List<Woman> getWomanPregnant(@Param ("id") Integer id);
+
+    @Query (value = "SELECT w FROM Woman w" +
+            " WHERE (w.settlement.id = :id AND w.pregnantRecess > 0)")
+    List<Woman> getWomanOnPregnantRecess(Integer id);
 }

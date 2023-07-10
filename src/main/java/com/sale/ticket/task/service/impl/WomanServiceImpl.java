@@ -1,13 +1,11 @@
 package com.sale.ticket.task.service.impl;
 
 import com.sale.ticket.task.converters.SettlementConverter;
-import com.sale.ticket.task.model.Man;
 import com.sale.ticket.task.model.Woman;
 import com.sale.ticket.task.repository.WomanRepository;
 import com.sale.ticket.task.service.WomanService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,13 +18,11 @@ public class WomanServiceImpl implements WomanService {
 
     private final SettlementConverter settlementConverter;
 
-    @Transactional
     public Integer addWoman(Woman woman) {
         woman = womanRepository.save(woman);
         return woman.getId();
     }
 
-    @Transactional
     @Override
     public void saveWoman(Woman woman) {
         womanRepository.saveAndFlush(woman);
@@ -62,5 +58,15 @@ public class WomanServiceImpl implements WomanService {
     @Override
     public List<Woman> getWomanPregnant(Integer id) {
         return womanRepository.getWomanPregnant(id);
+    }
+
+    @Override
+    public List<Woman> getWomanOnPregnantRecess(Integer id) {
+        return womanRepository.getWomanOnPregnantRecess(id);
+    }
+
+    @Override
+    public void deleteWoman(Woman woman) {
+        womanRepository.deleteById(woman.getId());
     }
 }

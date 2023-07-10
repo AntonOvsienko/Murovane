@@ -18,5 +18,5 @@ public interface SettlementConverter {
 
     List<WomanOverview> convertGirlOverview(List<Woman> women);
 
-    Integer getAge(LocalDate date, LocalDate settlement);
+    Integer getAge(LocalDate dateBorn, LocalDate settlement);
 }

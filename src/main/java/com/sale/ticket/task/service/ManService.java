@@ -11,4 +11,6 @@ public interface ManService {
     List<Man> getManUnderMarried(Integer id);
 
     void saveMan (Man man);
+
+    void deleteMan(Man man);
 }

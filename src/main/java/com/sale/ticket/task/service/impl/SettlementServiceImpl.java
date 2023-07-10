@@ -1,6 +1,5 @@
 package com.sale.ticket.task.service.impl;
 
-import com.sale.ticket.task.model.Individual;
 import com.sale.ticket.task.model.Settlement;
 import com.sale.ticket.task.repository.SettlementRepository;
 import com.sale.ticket.task.service.SettlementService;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
