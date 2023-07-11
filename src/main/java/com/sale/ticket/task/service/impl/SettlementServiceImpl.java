@@ -49,4 +49,9 @@ public class SettlementServiceImpl implements SettlementService {
     public LocalDate bornDate(int age, LocalDate settlement) {
         return settlement.minusYears(age);
     }
+
+    @Override
+    public void createLogHistory(Settlement settlement) {
+
+    }
 }

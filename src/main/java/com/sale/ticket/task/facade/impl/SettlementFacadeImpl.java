@@ -80,19 +80,21 @@ public class SettlementFacadeImpl implements SettlementFacade {
     public Settlement updateSettlerById(Integer id, List<String> messages) {
         Settlement settlement = settlementService.getSettlementById(id);
         Integer countMonth = getCountMonth(settlement);
-        updateDate(settlement, countMonth);
         Integer countMarried = 0;
         Integer countPregnant = 0;
         Integer countBaby = 0;
         Integer countDead = 0;
         for (int i = 0; i < countMonth; i++) {
+            updateDate(settlement, 1);
             countMarried = married(settlement, countMarried);
             countPregnant = pregnant(settlement, countPregnant);
             countBaby = childbirth(settlement, countBaby);
             pregnantRecess(settlement);
             countDead = dead(settlement, countDead);
             settlement = settlementService.updateSettler(settlement);
+//            settlementService.createLogHistory(settlement);
         }
+
         messages.add("Кол-во браков за истекший период - " + countMarried);
         messages.add("Кол-во новых беременностей за истекший период - " + countPregnant);
         messages.add("Кол-во новорожденных за истекший период - " + countBaby);
@@ -100,6 +102,7 @@ public class SettlementFacadeImpl implements SettlementFacade {
         return settlement;
     }
 
+    @Transactional
     private Integer dead(Settlement settlement, Integer countDead) {
         List<Man> men = new ArrayList<>(settlement.getMen());
         List<Woman> women = new ArrayList<>(settlement.getWomen());
@@ -108,13 +111,16 @@ public class SettlementFacadeImpl implements SettlementFacade {
             int age = settlementConverter.getAge(man.getDateBorn(), man.getSettlement().getSettlementTime());
             if (age > 80) {
                 countDead++;
+                settlement.getMen().remove(man);
                 manService.deleteMan(man);
             }
-        } for (int i = 0; i < women.size(); i++) {
+        }
+        for (int i = 0; i < women.size(); i++) {
             Woman woman = women.get(i);
             int age = settlementConverter.getAge(woman.getDateBorn(), woman.getSettlement().getSettlementTime());
             if (age > 80) {
                 countDead++;
+                settlement.getWomen().remove(woman);
                 womanService.deleteWoman(woman);
             }
         }
@@ -122,16 +128,17 @@ public class SettlementFacadeImpl implements SettlementFacade {
     }
 
     private void pregnantRecess(Settlement settlement) {
-        List<Woman> womanList = womanService.getWomanOnPregnantRecess(settlement.getId());
+        List<Woman> womanList = womanService.getWomanOnPregnantRecess(settlement);
         for (int i = 0; i < womanList.size(); i++) {
             Woman woman = womanList.get(i);
             woman.setPregnantRecess(woman.getPregnantRecess() - 1);
-            womanService.saveWoman(woman);
+            int index = settlement.getWomen().indexOf(woman);
+            settlement.getWomen().set(index,woman);
         }
     }
 
     private Integer childbirth(Settlement settlement, Integer countBaby) {
-        List<Woman> listWoman = womanService.getWomanPregnant(settlement.getId());
+        List<Woman> listWoman = womanService.getWomanPregnant(settlement);
         for (int i = 0; i < listWoman.size(); i++) {
             int gestation = listWoman.get(i).getPregnantDuration();
             gestation++;
@@ -142,34 +149,37 @@ public class SettlementFacadeImpl implements SettlementFacade {
                 currentWoman.setPregnantDuration(0);
                 currentWoman.setPregnantRecess(12);
                 currentWoman.setCountBaby(currentWoman.getCountBaby() + 1);
-                womanService.saveWoman(currentWoman);
+                int index = settlement.getWomen().indexOf(currentWoman);
+                settlement.getWomen().set(index,currentWoman);
                 addNewIndividual(settlement, 0);
             } else {
                 Woman currentWoman = listWoman.get(i);
                 currentWoman.setPregnantDuration(gestation);
-                womanService.saveWoman(currentWoman);
+                int index = settlement.getWomen().indexOf(currentWoman);
+                settlement.getWomen().set(index,currentWoman);
             }
         }
         return countBaby;
     }
 
     private Integer pregnant(Settlement settlement, Integer countPregnant) {
-        List<Woman> listWoman = womanService.getWomanMarriedNotPregnant(settlement.getId());
+        List<Woman> listWoman = womanService.getWomanMarriedNotPregnant(settlement);
         for (int i = 0; i < listWoman.size(); i++) {
             int random = (int) (Math.random() * (10 + 2 * listWoman.get(i).getCountBaby()));
             if (random == 0) {
                 countPregnant++;
                 Woman currentWoman = listWoman.get(i);
                 currentWoman.setPregnant(true);
-                womanService.saveWoman(currentWoman);
+                int index = settlement.getWomen().indexOf(currentWoman);
+                settlement.getWomen().set(index, currentWoman);
             }
         }
         return countPregnant;
     }
 
     private Integer married(Settlement settlement, Integer countMarried) {
-        List<Man> listMan = manService.getManUnderMarried(settlement.getId());
-        List<Woman> listWoman = womanService.getWomenUnderMarried(settlement.getId());
+        List<Man> listMan = manService.getManUnderMarried(settlement);
+        List<Woman> listWoman = womanService.getWomenUnderMarried(settlement);
         for (int i = 0; i < listMan.size(); i++) {
             if (listWoman.size() == 0) {
                 break;
@@ -178,7 +188,10 @@ public class SettlementFacadeImpl implements SettlementFacade {
             if (random == 0) {
                 Man currentMan = listMan.get(i);
                 currentMan.setWife(getWife(listWoman));
-                manService.saveMan(currentMan);
+                int indexMan = settlement.getMen().indexOf(currentMan);
+                settlement.getMen().set(indexMan,currentMan);
+                int indexWoman = settlement.getWomen().indexOf(currentMan.getWife());
+                settlement.getWomen().set(indexWoman,currentMan.getWife());
                 countMarried++;
             }
         }
@@ -189,7 +202,7 @@ public class SettlementFacadeImpl implements SettlementFacade {
         int count = listWoman.size();
         double random = Math.random() * (count - 1);
         Woman woman = listWoman.get((int) random);
-        listWoman.remove((int) random);
+        listWoman.remove(woman);
         return woman;
     }
 

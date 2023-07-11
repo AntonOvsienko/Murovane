@@ -20,4 +20,6 @@ public interface SettlementService {
     void deleteSettlement(Integer settlement);
 
     LocalDate bornDate(int age, LocalDate settlement);
+
+    void createLogHistory(Settlement settlement);
 }

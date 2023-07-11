@@ -2,6 +2,7 @@ package com.sale.ticket.task.service.impl;
 
 import com.sale.ticket.task.converters.SettlementConverter;
 import com.sale.ticket.task.model.Man;
+import com.sale.ticket.task.model.Settlement;
 import com.sale.ticket.task.repository.ManRepository;
 import com.sale.ticket.task.service.ManService;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,31 @@ public class ManServiceImpl implements ManService {
                         }
                     })
                 .collect(Collectors.toList());
+        } else {
+            return men;
+        }
+    }
+
+    @Override
+    public List<Man> getManUnderMarried(Settlement settlement) {
+        List<Man> men = settlement.getMen()
+                .stream()
+                .filter(man ->Objects.isNull(man.getWife()))
+                .collect(Collectors.toList());
+        if (men.size() != 0) {
+            return men.stream().filter(man -> settlementConverter
+                            .getAge(man.getDateBorn(), man.getSettlement().getSettlementTime()) > 15)
+                    .sorted((man1, man2) -> {
+                        if (man1.getDateBorn().equals(man2.getDateBorn())){
+                            return 0;
+                        }
+                        if (man1.getDateBorn().isBefore(man2.getDateBorn())){
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    })
+                    .collect(Collectors.toList());
         } else {
             return men;
         }
