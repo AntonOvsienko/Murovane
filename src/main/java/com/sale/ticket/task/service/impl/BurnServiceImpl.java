@@ -57,7 +57,6 @@ public class BurnServiceImpl implements BurnService {
     }
 
     private Woman getWife(List<Woman> listWoman) {
-        System.out.println("listWoman-" + listWoman);
         int count = listWoman.size();
         double random = Math.random() * (count - 1);
         Woman woman = listWoman.get((int) random);
