@@ -8,11 +8,15 @@ import com.sale.ticket.task.repository.SettlementRepository;
 import com.sale.ticket.task.service.DeathService;
 import com.sale.ticket.task.service.ManService;
 import com.sale.ticket.task.service.WomanService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@AllArgsConstructor
 public class DeathServiceImpl implements DeathService {
 
     @Resource
