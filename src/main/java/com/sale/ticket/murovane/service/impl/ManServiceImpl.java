@@ -30,7 +30,7 @@ public class ManServiceImpl implements ManService {
     @Override
     public List<Man> getManUnderMarried(Integer id) {
         List<Man> men = manRepository.getManUnderMarried(id);
-        if (men.size() != 0) {
+        if (!men.isEmpty()) {
             return men.stream().filter(man -> settlementConverter
                             .getAge(man.getDateBorn(), man.getSettlement().getSettlementTime()) > 15)
                     .sorted((man1, man2) -> {
@@ -55,7 +55,7 @@ public class ManServiceImpl implements ManService {
                 .stream()
                 .filter(man ->Objects.isNull(man.getWife()))
                 .collect(Collectors.toList());
-        if (men.size() != 0) {
+        if (!men.isEmpty()) {
             return men.stream().filter(man -> settlementConverter
                             .getAge(man.getDateBorn(), man.getSettlement().getSettlementTime()) > 15)
                     .sorted((man1, man2) -> {

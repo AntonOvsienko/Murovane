@@ -3,49 +3,41 @@ package com.sale.ticket.murovane.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @Entity
-@Table (name = "woman_list")
-@EqualsAndHashCode (of = "id")
+@Table(name = "woman_list")
+@EqualsAndHashCode(callSuper = true)
 public class Woman extends Individual {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
     @ManyToOne
-    @JoinColumn (name = "name_id")
+    @JoinColumn(name = "name_id")
     private WomanName name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "settlement_id")
+    @JoinColumn(name = "settlement_id")
     private Settlement settlement;
 
-    @Column (name = "pregnant_status")
+    @Column(name = "pregnant_status")
     private Boolean pregnant;
 
-    @Column (name = "pregnant_duration")
+    @Column(name = "pregnant_duration")
     private Integer pregnantDuration;
 
-    @Column (name = "pregnant_recess")
+    @Column(name = "pregnant_recess")
     private Integer pregnantRecess;
 
-    @Column (name = "count_baby")
+    @Column(name = "count_baby")
     private Integer countBaby;
 
-    @OneToOne(mappedBy = "wife")
+    @OneToOne(mappedBy = "wife", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Man husband;
 
     //    @ManyToMany

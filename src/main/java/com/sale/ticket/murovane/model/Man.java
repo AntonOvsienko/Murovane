@@ -17,39 +17,25 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Table (name = "man_list")
-@EqualsAndHashCode (of = "id")
+@Table(name = "man_list")
+@EqualsAndHashCode(callSuper = true)
 public class Man extends Individual {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn (name = "name_id")
+    @JoinColumn(name = "name_id")
     private ManName name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "settlement_id")
+    @JoinColumn(name = "settlement_id")
     private Settlement settlement;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "wife_id")
     private Woman wife;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Man man = (Man) o;
-        return Objects.equals(id, man.id) && Objects.equals(name, man.name) && Objects.equals(settlement, man.settlement) && Objects.equals(wife, man.wife);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), id, name, settlement, wife);
-    }
 
     //    @ManyToMany
     //    @JoinTable (name = "man_negative",

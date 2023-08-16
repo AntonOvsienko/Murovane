@@ -33,7 +33,7 @@ public class WomanServiceImpl implements WomanService {
     @Override
     public List<Woman> getWomenUnderMarried(Integer id) {
         List<Woman> women = womanRepository.getWomanUnderMarried(id);
-        if (women.size() != 0) {
+        if (!women.isEmpty()) {
             return women.stream().filter(woman -> settlementConverter
                             .getAge(woman.getDateBorn(), woman.getSettlement().getSettlementTime()) > 15)
                     .sorted((woman1, woman2) -> {
@@ -57,7 +57,7 @@ public class WomanServiceImpl implements WomanService {
         List<Woman> women = settlement.getWomen().stream()
                 .filter(woman -> Objects.isNull(woman.getHusband()))
                 .collect(Collectors.toList());
-        if (women.size() != 0) {
+        if (!women.isEmpty()) {
             return women.stream().filter(woman -> settlementConverter
                             .getAge(woman.getDateBorn(), woman.getSettlement().getSettlementTime()) > 15)
                     .sorted((woman1, woman2) -> {

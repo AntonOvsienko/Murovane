@@ -1,6 +1,7 @@
 Feature: Create new settlement
   New settlement
 
+  @create_settlement
   Scenario Outline: Create different settlements
     Given initialize before create settlement
     When creating new settlement with "<name>" and number of settlers is <count>

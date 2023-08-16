@@ -10,14 +10,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class SettlementFacadeCucumber {
 
     private Settlement settlement = new Settlement();
-    private IndividualDataGenerator individualDataGenerator= new IndividualDataGenerator();
+    private IndividualDataGenerator individualDataGenerator = new IndividualDataGenerator();
     private ManNameService manNameService;
     private ManService manService;
     private WomanService womanService;
@@ -68,4 +67,7 @@ public class SettlementFacadeCucumber {
             assertNotNull(settlement.getWomen().get(i).getSurname());
         }
     }
+
+
+
 }

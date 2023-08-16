@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -40,8 +41,8 @@ public class BurnServiceImpl implements BurnService {
     @Override
     public Integer married(Settlement settlement, Integer countMarried) {
         List<Man> listMan = manService.getManUnderMarried(settlement);
-        List<Woman> listWoman = womanService.getWomenUnderMarried(settlement);
         for (int i = 0; i < listMan.size(); i++) {
+            List<Woman> listWoman = womanService.getWomenUnderMarried(settlement);
             if (listWoman.isEmpty()) {
                 break;
             }
@@ -49,9 +50,8 @@ public class BurnServiceImpl implements BurnService {
             if (random == 0) {
                 Man currentMan = listMan.get(i);
                 Woman currentWoman = getWife(listWoman);
-                currentMan.setWife(currentWoman);
                 currentWoman.setHusband(currentMan);
-
+                currentMan.setWife(currentWoman);
                 countMarried++;
             }
         }
@@ -60,8 +60,8 @@ public class BurnServiceImpl implements BurnService {
 
     private Woman getWife(List<Woman> listWoman) {
         int count = listWoman.size();
-        double random = Math.random() * (count - 1);
-        Woman woman = listWoman.get((int) random);
+        int random = (int) (Math.random() * (count));
+        Woman woman = listWoman.get(random);
         listWoman.remove(woman);
         return woman;
     }
