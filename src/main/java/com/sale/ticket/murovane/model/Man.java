@@ -33,6 +33,7 @@ public class Man extends Individual {
     @JoinColumn(name = "settlement_id")
     private Settlement settlement;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "wife_id")
     private Woman wife;

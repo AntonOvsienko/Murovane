@@ -50,8 +50,9 @@ public class BurnServiceImpl implements BurnService {
             if (random == 0) {
                 Man currentMan = listMan.get(i);
                 Woman currentWoman = getWife(listWoman);
-                currentWoman.setHusband(currentMan);
                 currentMan.setWife(currentWoman);
+                currentWoman.setHusband(currentMan);
+
                 countMarried++;
             }
         }

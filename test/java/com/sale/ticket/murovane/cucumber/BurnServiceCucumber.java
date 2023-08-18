@@ -118,7 +118,7 @@ public class BurnServiceCucumber {
 
     @Given("create settlement with {int} pregnant and {int} non-pregnant count")
     public void createSettlementWithPregnantAndNonPregnantCount(int arg0, int arg1) {
-        settlement = settlementDataGenerator.createSettlementForChildBirth(arg0,arg1);
+        settlement = settlementDataGenerator.createSettlementForChildBirth(arg0, arg1);
         manRepository = mock(ManRepository.class);
         womanRepository = mock(WomanRepository.class);
         deathService = mock(DeathService.class);
@@ -149,6 +149,45 @@ public class BurnServiceCucumber {
 
     @Then("return updated settlement with {int} child")
     public void returnUpdatedSettlementWithChild(int child) {
-        assertEquals(finalCount,child);
+        assertEquals(finalCount, child);
+    }
+
+    @Given("create settlement with {int} pregnantRecess")
+    public void createSettlementWithPregnantRecess(int count) {
+        settlement = settlementDataGenerator.createSettlementRecess(count);
+
+        manRepository = mock(ManRepository.class);
+        womanRepository = mock(WomanRepository.class);
+        deathService = mock(DeathService.class);
+        settlementService = mock(SettlementService.class);
+        surnameService = mock(SurnameService.class);
+        womanNameService = mock(WomanNameService.class);
+        manNameService = mock(ManNameService.class);
+        manService = new ManServiceImpl(manRepository, settlementConverter);
+        womanService = new WomanServiceImpl(womanRepository, settlementConverter);
+
+        Mockito.when(manNameService.getListManName())
+                .thenReturn(individualDataGenerator.createListManName());
+        Mockito.when(womanNameService.getListWomanName())
+                .thenReturn(individualDataGenerator.createListWomanName());
+        Mockito.when(surnameService.getListSurname())
+                .thenReturn(individualDataGenerator.createListSurname());
+        Mockito.when(settlementService.createSettler(settlement)).thenReturn(settlement);
+        burnService = new BurnServiceImpl(manService, manNameService, womanService, womanNameService, surnameService, settlementService);
+        settlementFacade = new SettlementFacadeImpl(settlementService, burnService, deathService);
+    }
+
+    @When("update settlement pregnantRecess {int} count")
+    public void updateSettlementPregnantRecessCount(int cycles) {
+        for (int i = 0; i < cycles; i++) {
+            burnService.pregnantRecess(settlement);
+        }
+    }
+
+    @Then("return updated settlement with {int} reade to pregnant")
+    public void returnUpdatedSettlementWithReadeToPregnant(int arg0) {
+        assertEquals(settlement.getWomen().stream()
+                .filter(woman -> woman.getPregnantRecess() == 0)
+                .count(), arg0);
     }
 }

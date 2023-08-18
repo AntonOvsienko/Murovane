@@ -47,7 +47,8 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Override
     public LocalDate bornDate(int age, LocalDate settlement) {
-        return settlement.minusYears(age);
+        int days = (int) (Math.random() * 31);
+        return settlement.minusYears(age).minusDays(days);
     }
 
     @Override
