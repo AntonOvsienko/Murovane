@@ -1,90 +1,81 @@
 package com.sale.ticket.murovane.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sale.ticket.murovane.converters.impl.SettlementConverterImpl;
 import com.sale.ticket.murovane.domen.model.SettlementOverview;
 import com.sale.ticket.murovane.facade.SettlementFacade;
-import com.sale.ticket.murovane.model.*;
+import com.sale.ticket.murovane.model.Settlement;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
+@RequestMapping("/api/settlements")
 @AllArgsConstructor
 public class StartController {
 
     private final SettlementFacade settlementFacade;
     private final SettlementConverterImpl settlementConverter;
+    private final ObjectMapper objectMapper;
 
-    @RequestMapping ("/")
-    public String showFirstPage(Model model) {
+    @ResponseBody
+    @GetMapping
+    public ResponseEntity<String> getAllSettlements() throws JsonProcessingException {
         List<Settlement> settlementList = settlementFacade.getSettlementList();
-        if (settlementList != null) {
-            model.addAttribute("settlementList", settlementList);
-        } else {
-            model.addAttribute("settlementList", null);
+        String json="";
+        if (Objects.nonNull(settlementList) && !settlementList.isEmpty()){
+        List<SettlementOverview> settlementOverviews = settlementList.stream()
+                .map(settlementConverter::convert)
+                .collect(Collectors.toList());
+        json = objectMapper.writeValueAsString(settlementOverviews);
         }
-
-        return "index.html";
+        return ResponseEntity.ok(json);
     }
-    @PostMapping ("/create-settlement")
-    public String createSettlement(Model model, @RequestParam ("quantity") @NonNull Integer quantity, @RequestParam ("name") @NonNull String name) {
+
+    @PostMapping
+    public ResponseEntity<SettlementOverview> createSettlement(
+            @RequestParam("quantity") @NonNull Integer quantity,
+            @RequestParam("name") @NonNull String name) {
         Settlement settlement = settlementFacade.createSettlement(quantity, name);
-        List<Settlement> settlementList = settlementFacade.getSettlementList();
-        model.addAttribute("settlementList", settlementList);
         SettlementOverview settlementOverview = settlementConverter.convert(settlement);
-        model.addAttribute("settlement", settlementOverview);
-
-        return "index.html";
+        System.out.println(settlementOverview);
+        return ResponseEntity.ok(settlementOverview);
     }
 
-    @PostMapping ("/delete-settlement")
-    public String deleteSettlement(Model model, @RequestParam ("id") @NonNull String id) {
-        settlementFacade.deleteSettlement(Integer.valueOf(id));
-        List<Settlement> settlementList = settlementFacade.getSettlementList();
-        if (settlementList != null) {
-            model.addAttribute("settlementList", settlementList);
-        } else {
-            model.addAttribute("settlementList", null);
-        }
-
-        return "index.html";
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSettlement(@PathVariable("id") @NonNull Integer id) {
+        settlementFacade.deleteSettlement(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping ("/choose-settlement")
-    public String chooseSettlement(Model model, @RequestParam ("id") @NonNull Integer id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<SettlementOverview> getSettlement(@PathVariable("id") @NonNull Integer id) {
         Settlement settlement = settlementFacade.getSettlerById(id);
         if (settlement != null) {
             SettlementOverview settlementOverview = settlementConverter.convert(settlement);
-            model.addAttribute("settlement", settlementOverview);
+            return ResponseEntity.ok(settlementOverview);
         } else {
-            model.addAttribute("settlement", null);
+            return ResponseEntity.notFound().build();
         }
-
-        return "settlement.html";
     }
 
-    @PostMapping ("/update-settlement")
-    public String updateSettlement(Model model, @RequestParam ("id") @NonNull Integer id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<SettlementOverview> updateSettlement(@PathVariable("id") @NonNull Integer id) {
         List<String> messages = new ArrayList<>();
         Settlement settlement = settlementFacade.updateSettlerById(id, messages);
         if (settlement != null) {
             SettlementOverview settlementOverview = settlementConverter.convert(settlement);
-            model.addAttribute("settlement", settlementOverview);
-            model.addAttribute("messages", messages);
+            return ResponseEntity.ok(settlementOverview);
         } else {
-            model.addAttribute("settlement", null);
-            model.addAttribute("messages", null);
+            return ResponseEntity.notFound().build();
         }
-
-        return "settlement.html";
     }
-
 }

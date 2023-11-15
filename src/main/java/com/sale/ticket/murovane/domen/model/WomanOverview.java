@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class WomanOverview extends Woman {
 
     private Integer age;
+    private String fullName;
 
 }

@@ -4,7 +4,6 @@ import com.sale.ticket.murovane.facade.SettlementFacade;
 import com.sale.ticket.murovane.model.Settlement;
 import com.sale.ticket.murovane.service.BurnService;
 import com.sale.ticket.murovane.service.DeathService;
-import com.sale.ticket.murovane.service.ManNameService;
 import com.sale.ticket.murovane.service.SettlementService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,7 +64,9 @@ public class SettlementFacadeImpl implements SettlementFacade {
         Integer countPregnant = 0;
         Integer countBaby = 0;
         Integer countDead = 0;
+        System.out.println(countMonth);
         for (int i = 0; i < countMonth; i++) {
+            System.out.println(i);
             updateDate(settlement, 1);
             countMarried = burnService.married(settlement, countMarried);
             countPregnant = burnService.pregnant(settlement, countPregnant);
@@ -73,6 +74,9 @@ public class SettlementFacadeImpl implements SettlementFacade {
             burnService.pregnantRecess(settlement);
             countDead = deathService.dead(settlement, countDead);
 //            settlementService.createLogHistory(settlement);
+            if (i != 0 && i % 120 == 0) {
+                settlement = settlementService.updateSettler(settlement);
+            }
         }
         settlementService.updateSettler(settlement);
         messages.add("Кол-во браков за истекший период - " + countMarried);

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create_schema" author="author">
+        <sql>
+            <![CDATA[
+                CREATE SCHEMA IF NOT EXISTS public;
+                SET search_path TO public;
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="create_settlement_table" author="author">
+        <createTable tableName="settlement_list">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="last_time" type="TIMESTAMP"/>
+            <column name="settlement_time" type="DATE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_man_list" author="author">
+        <createTable tableName="man_list">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="health" type="INTEGER"/>
+            <column name="date_born" type="DATE"/>
+            <column name="settlement_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wife_id" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_woman_list" author="author">
+        <createTable tableName="woman_list">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="health" type="INTEGER"/>
+            <column name="date_born" type="DATE"/>
+            <column name="settlement_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pregnant_status" type="BOOLEAN"/>
+            <column name="pregnant_duration" type="INTEGER"/>
+            <column name="pregnant_recess" type="INTEGER"/>
+            <column name="count_baby" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="your_name">
+        <addForeignKeyConstraint baseTableName="man_list" baseColumnNames="settlement_id"
+                                 constraintName="fk_settlement_man" referencedTableName="settlement_list"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="5" author="your_name">
+        <addForeignKeyConstraint baseTableName="woman_list" baseColumnNames="settlement_id"
+                                 constraintName="fk_settlement_woman" referencedTableName="settlement_list"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="6" author="your_name">
+        <addForeignKeyConstraint baseTableName="man_list" baseColumnNames="wife_id"
+                                 constraintName="fk_wife_man" referencedTableName="woman_list"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

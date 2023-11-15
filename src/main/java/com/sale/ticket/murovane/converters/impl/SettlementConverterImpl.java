@@ -44,9 +44,7 @@ public class SettlementConverterImpl implements Converter<Settlement, Settlement
         while (month > 12) {
             month = month - 12;
         }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("С последнего обновление прошло ").append(years).append(getYearFormat(years)).append(" и ").append(month).append(getMonthFormat(month));
-        return stringBuilder.toString();
+        return "С последнего обновление прошло " + years + getYearFormat(years) + " и " + month + getMonthFormat(month);
     }
 
     private String getMonthFormat(int month) {
@@ -126,12 +124,10 @@ public class SettlementConverterImpl implements Converter<Settlement, Settlement
 
     private ManOverview createManOverview(Man man) {
         ManOverview manOverview = new ManOverview();
+        manOverview.setFullName(man.getFullName());
         manOverview.setId(man.getId());
-        manOverview.setName(man.getName());
-        manOverview.setSurname(man.getSurname());
         manOverview.setHealth(man.getHealth());
         manOverview.setDateBorn(man.getDateBorn());
-        manOverview.setProfession(man.getProfession());
         manOverview.setSettlement(man.getSettlement());
         manOverview.setAge(getAge(man.getDateBorn(),man.getSettlement().getSettlementTime()));
         return manOverview;
@@ -139,12 +135,10 @@ public class SettlementConverterImpl implements Converter<Settlement, Settlement
 
     private WomanOverview createWomanOverview(Woman woman) {
         WomanOverview womanOverview = new WomanOverview();
+        womanOverview.setFullName(woman.getFullName());
         womanOverview.setId(woman.getId());
-        womanOverview.setName(woman.getName());
-        womanOverview.setSurname(woman.getSurname());
         womanOverview.setHealth(woman.getHealth());
         womanOverview.setDateBorn(woman.getDateBorn());
-        womanOverview.setProfession(woman.getProfession());
         womanOverview.setSettlement(woman.getSettlement());
         womanOverview.setAge(getAge(woman.getDateBorn(),woman.getSettlement().getSettlementTime()));
         return womanOverview;

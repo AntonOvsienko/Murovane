@@ -31,13 +31,10 @@ public class BurnServiceCucumber {
     private IndividualDataGenerator individualDataGenerator = new IndividualDataGenerator();
     private SettlementDataGenerator settlementDataGenerator = new SettlementDataGenerator();
     private SettlementConverter settlementConverter = new SettlementConverterImpl();
-    private ManNameService manNameService;
     private ManService manService;
     private ManRepository manRepository;
     private WomanRepository womanRepository;
     private WomanService womanService;
-    private WomanNameService womanNameService;
-    private SurnameService surnameService;
     private SettlementService settlementService;
     private BurnServiceImpl burnService;
     private SettlementFacadeImpl settlementFacade;
@@ -51,7 +48,7 @@ public class BurnServiceCucumber {
         womanRepository = mock(WomanRepository.class);
         manService = new ManServiceImpl(manRepository, settlementConverter);
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
-        burnService = new BurnServiceImpl(manService, manNameService, womanService, womanNameService, surnameService, settlementService);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService,settlementConverter);
     }
 
     @When("update settlement married by {int}")
@@ -95,7 +92,7 @@ public class BurnServiceCucumber {
         womanRepository = mock(WomanRepository.class);
         manService = new ManServiceImpl(manRepository, settlementConverter);
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
-        burnService = new BurnServiceImpl(manService, manNameService, womanService, womanNameService, surnameService, settlementService);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter);
     }
 
     @When("update settlement pregnants {int} count")
@@ -123,20 +120,11 @@ public class BurnServiceCucumber {
         womanRepository = mock(WomanRepository.class);
         deathService = mock(DeathService.class);
         settlementService = mock(SettlementService.class);
-        surnameService = mock(SurnameService.class);
-        womanNameService = mock(WomanNameService.class);
-        manNameService = mock(ManNameService.class);
         manService = new ManServiceImpl(manRepository, settlementConverter);
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
 
-        Mockito.when(manNameService.getListManName())
-                .thenReturn(individualDataGenerator.createListManName());
-        Mockito.when(womanNameService.getListWomanName())
-                .thenReturn(individualDataGenerator.createListWomanName());
-        Mockito.when(surnameService.getListSurname())
-                .thenReturn(individualDataGenerator.createListSurname());
         Mockito.when(settlementService.createSettler(settlement)).thenReturn(settlement);
-        burnService = new BurnServiceImpl(manService, manNameService, womanService, womanNameService, surnameService, settlementService);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter);
         settlementFacade = new SettlementFacadeImpl(settlementService, burnService, deathService);
     }
 
@@ -160,20 +148,11 @@ public class BurnServiceCucumber {
         womanRepository = mock(WomanRepository.class);
         deathService = mock(DeathService.class);
         settlementService = mock(SettlementService.class);
-        surnameService = mock(SurnameService.class);
-        womanNameService = mock(WomanNameService.class);
-        manNameService = mock(ManNameService.class);
         manService = new ManServiceImpl(manRepository, settlementConverter);
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
 
-        Mockito.when(manNameService.getListManName())
-                .thenReturn(individualDataGenerator.createListManName());
-        Mockito.when(womanNameService.getListWomanName())
-                .thenReturn(individualDataGenerator.createListWomanName());
-        Mockito.when(surnameService.getListSurname())
-                .thenReturn(individualDataGenerator.createListSurname());
         Mockito.when(settlementService.createSettler(settlement)).thenReturn(settlement);
-        burnService = new BurnServiceImpl(manService, manNameService, womanService, womanNameService, surnameService, settlementService);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter);
         settlementFacade = new SettlementFacadeImpl(settlementService, burnService, deathService);
     }
 

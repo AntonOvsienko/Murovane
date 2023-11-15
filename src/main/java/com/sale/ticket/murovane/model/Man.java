@@ -1,5 +1,7 @@
 package com.sale.ticket.murovane.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.Objects;
 
 @Data
 @Entity
@@ -25,28 +26,14 @@ public class Man extends Individual {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "name_id")
-    private ManName name;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "settlement_id")
+    @JsonBackReference
     private Settlement settlement;
 
     @EqualsAndHashCode.Exclude
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "wife_id")
+    @JsonManagedReference(value = "manReference")
     private Woman wife;
-
-    //    @ManyToMany
-    //    @JoinTable (name = "man_negative",
-    //            joinColumns = {@JoinColumn (name = "man_list")},
-    //            inverseJoinColumns = {@JoinColumn(name = "negative_traits")})
-    //    private List<NegativeTrait> individualNegative = new ArrayList<>();
-    //
-    //    @ManyToMany
-    //    @JoinTable (name = "man_positive",
-    //            joinColumns = {@JoinColumn(name = "man_list")},
-    //            inverseJoinColumns = {@JoinColumn(name = "positive_traits")})
-    //    private List<PositiveTrait> individualPositive = new ArrayList<>();
 }

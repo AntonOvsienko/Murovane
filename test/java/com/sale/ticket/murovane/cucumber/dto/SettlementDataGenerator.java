@@ -8,8 +8,6 @@ import java.util.List;
 
 public class SettlementDataGenerator {
 
-    private final IndividualDataGenerator individualDataGenerator = new IndividualDataGenerator();
-
     public Settlement simpleSettlement() {
         Settlement settlement = new Settlement();
         settlement.setSettlementTime(LocalDate.of(1940, 8, 12));
@@ -21,27 +19,17 @@ public class SettlementDataGenerator {
         Settlement settlement = new Settlement();
         settlement.setSettlementTime(LocalDate.of(1940, 8, 12));
         settlement.setLastTime(LocalDateTime.of(1940, 8, 5, 0, 0));
-        List<ManName> manNameList = individualDataGenerator.createListManName();
-        List<WomanName> womanNameList = individualDataGenerator.createListWomanName();
-        List<Surname> surnameList = individualDataGenerator.createListSurname();
         for (int i = 0; i < count; i++) {
             int sex = (int) (Math.random() * 2);
-            int manListCount = (int) (Math.random() * manNameList.size());
-            int womanListCount = (int) (Math.random() * womanNameList.size());
-            int surnameListCount = (int) (Math.random() * surnameList.size());
             if (sex == 1) {
                 Man man = new Man();
                 man.setHealth(5);
-                man.setName(manNameList.get(manListCount));
-                man.setSurname(surnameList.get(surnameListCount));
                 man.setSettlement(settlement);
                 man.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
                 settlement.getMen().add(man);
             } else {
                 Woman woman = new Woman();
                 woman.setHealth(5);
-                woman.setName(womanNameList.get(womanListCount));
-                woman.setSurname(surnameList.get(surnameListCount));
                 woman.setSettlement(settlement);
                 woman.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
                 settlement.getWomen().add(woman);
@@ -54,24 +42,14 @@ public class SettlementDataGenerator {
         Settlement settlement = new Settlement();
         settlement.setSettlementTime(LocalDate.of(1940, 8, 12));
         settlement.setLastTime(LocalDateTime.of(1940, 8, 5, 0, 0));
-        List<ManName> manNameList = individualDataGenerator.createListManName();
-        List<WomanName> womanNameList = individualDataGenerator.createListWomanName();
-        List<Surname> surnameList = individualDataGenerator.createListSurname();
         for (int i = 0; i < wife; i++) {
-            int manListCount = (int) (Math.random() * manNameList.size());
-            int womanListCount = (int) (Math.random() * womanNameList.size());
-            int surnameListCount = (int) (Math.random() * surnameList.size());
             Man man = new Man();
             man.setHealth(5);
-            man.setName(manNameList.get(manListCount));
-            man.setSurname(surnameList.get(surnameListCount));
             man.setSettlement(settlement);
             man.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
 
             Woman woman = new Woman();
             woman.setHealth(5);
-            woman.setName(womanNameList.get(womanListCount));
-            woman.setSurname(surnameList.get(surnameListCount));
             woman.setSettlement(settlement);
             woman.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
             woman.setPregnant(Boolean.FALSE);
@@ -86,12 +64,8 @@ public class SettlementDataGenerator {
         }
 
         for (int i = 0; i < nowife; i++) {
-            int womanListCount = (int) (Math.random() * womanNameList.size());
-            int surnameListCount = (int) (Math.random() * surnameList.size());
             Woman woman = new Woman();
             woman.setHealth(5);
-            woman.setName(womanNameList.get(womanListCount));
-            woman.setSurname(surnameList.get(surnameListCount));
             woman.setSettlement(settlement);
             woman.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
             woman.setPregnant(Boolean.FALSE);
@@ -107,16 +81,10 @@ public class SettlementDataGenerator {
         Settlement settlement = new Settlement();
         settlement.setSettlementTime(LocalDate.of(1940, 8, 12));
         settlement.setLastTime(LocalDateTime.of(1940, 8, 5, 0, 0));
-        List<WomanName> womanNameList = individualDataGenerator.createListWomanName();
-        List<Surname> surnameList = individualDataGenerator.createListSurname();
         for (int i = 0; i < arg0; i++) {
-            int womanListCount = (int) (Math.random() * womanNameList.size());
-            int surnameListCount = (int) (Math.random() * surnameList.size());
 
             Woman woman = new Woman();
             woman.setHealth(5);
-            woman.setName(womanNameList.get(womanListCount));
-            woman.setSurname(surnameList.get(surnameListCount));
             woman.setSettlement(settlement);
             woman.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
             woman.setPregnant(Boolean.TRUE);
@@ -128,12 +96,8 @@ public class SettlementDataGenerator {
         }
 
         for (int i = 0; i < arg1; i++) {
-            int womanListCount = (int) (Math.random() * womanNameList.size());
-            int surnameListCount = (int) (Math.random() * surnameList.size());
             Woman woman = new Woman();
             woman.setHealth(5);
-            woman.setName(womanNameList.get(womanListCount));
-            woman.setSurname(surnameList.get(surnameListCount));
             woman.setSettlement(settlement);
             woman.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
             woman.setPregnant(Boolean.FALSE);
@@ -149,16 +113,10 @@ public class SettlementDataGenerator {
         Settlement settlement = new Settlement();
         settlement.setSettlementTime(LocalDate.of(1940, 8, 12));
         settlement.setLastTime(LocalDateTime.of(1940, 8, 5, 0, 0));
-        List<WomanName> womanNameList = individualDataGenerator.createListWomanName();
-        List<Surname> surnameList = individualDataGenerator.createListSurname();
 
         for (int i = 0; i < arg0; i++) {
-            int womanListCount = (int) (Math.random() * womanNameList.size());
-            int surnameListCount = (int) (Math.random() * surnameList.size());
             Woman woman = new Woman();
             woman.setHealth(5);
-            woman.setName(womanNameList.get(womanListCount));
-            woman.setSurname(surnameList.get(surnameListCount));
             woman.setSettlement(settlement);
             woman.setDateBorn(LocalDate.of(1910, 8, 12).minusDays(i));
             woman.setPregnant(Boolean.FALSE);
@@ -175,20 +133,12 @@ public class SettlementDataGenerator {
         Settlement settlement = new Settlement();
         settlement.setSettlementTime(LocalDate.of(1940, 8, 12));
         settlement.setLastTime(LocalDateTime.of(1940, 8, 5, 0, 0));
-        List<ManName> manNameList = individualDataGenerator.createListManName();
-        List<WomanName> womanNameList = individualDataGenerator.createListWomanName();
-        List<Surname> surnameList = individualDataGenerator.createListSurname();
         for (int i = 0; i < count; i++) {
             int sex = (int) (Math.random() * 2);
-            int manListCount = (int) (Math.random() * manNameList.size());
-            int womanListCount = (int) (Math.random() * womanNameList.size());
-            int surnameListCount = (int) (Math.random() * surnameList.size());
             if (sex == 1) {
                 Man man = new Man();
                 man.setId(i);
                 man.setHealth(5);
-                man.setName(manNameList.get(manListCount));
-                man.setSurname(surnameList.get(surnameListCount));
                 man.setSettlement(settlement);
                 man.setDateBorn(LocalDate.of(1940 - list.get(i), 8, 12).minusDays(i));
                 settlement.getMen().add(man);
@@ -196,8 +146,6 @@ public class SettlementDataGenerator {
                 Woman woman = new Woman();
                 woman.setId(i);
                 woman.setHealth(5);
-                woman.setName(womanNameList.get(womanListCount));
-                woman.setSurname(surnameList.get(surnameListCount));
                 woman.setSettlement(settlement);
                 woman.setDateBorn(LocalDate.of(1940 - list.get(i), 8, 12).minusDays(i));
                 settlement.getWomen().add(woman);

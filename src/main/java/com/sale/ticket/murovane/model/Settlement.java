@@ -1,5 +1,6 @@
 package com.sale.ticket.murovane.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,9 +30,11 @@ public class Settlement {
     private LocalDate settlementTime;
 
     @OneToMany (mappedBy = "settlement", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Man> men = new ArrayList<>();
 
     @OneToMany (mappedBy = "settlement", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Woman> women = new ArrayList<>();
 
 }

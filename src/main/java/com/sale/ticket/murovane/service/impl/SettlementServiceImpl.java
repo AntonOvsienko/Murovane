@@ -22,7 +22,7 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Override
     public Settlement updateSettler(Settlement settlement) {
-        return settlementRepository.save(settlement);
+        return settlementRepository.saveAndFlush(settlement);
     }
 
     @Override
