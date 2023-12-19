@@ -5,6 +5,7 @@ import com.sale.ticket.murovane.converters.impl.SettlementConverterImpl;
 import com.sale.ticket.murovane.cucumber.dto.IndividualDataGenerator;
 import com.sale.ticket.murovane.cucumber.dto.SettlementDataGenerator;
 import com.sale.ticket.murovane.facade.impl.SettlementFacadeImpl;
+import com.sale.ticket.murovane.generator.RandomStringGenerator;
 import com.sale.ticket.murovane.model.Man;
 import com.sale.ticket.murovane.model.Settlement;
 import com.sale.ticket.murovane.model.Woman;
@@ -38,6 +39,7 @@ public class BurnServiceCucumber {
     private SettlementService settlementService;
     private BurnServiceImpl burnService;
     private SettlementFacadeImpl settlementFacade;
+    private RandomStringGenerator randomStringGenerator;
     private DeathService deathService;
     private int finalCount = 0;
 
@@ -48,7 +50,7 @@ public class BurnServiceCucumber {
         womanRepository = mock(WomanRepository.class);
         manService = new ManServiceImpl(manRepository, settlementConverter);
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
-        burnService = new BurnServiceImpl(manService, womanService, settlementService,settlementConverter);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService,settlementConverter,randomStringGenerator);
     }
 
     @When("update settlement married by {int}")
@@ -92,7 +94,7 @@ public class BurnServiceCucumber {
         womanRepository = mock(WomanRepository.class);
         manService = new ManServiceImpl(manRepository, settlementConverter);
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
-        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter,randomStringGenerator);
     }
 
     @When("update settlement pregnants {int} count")
@@ -124,7 +126,7 @@ public class BurnServiceCucumber {
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
 
         Mockito.when(settlementService.createSettler(settlement)).thenReturn(settlement);
-        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter,randomStringGenerator);
         settlementFacade = new SettlementFacadeImpl(settlementService, burnService, deathService);
     }
 
@@ -152,7 +154,7 @@ public class BurnServiceCucumber {
         womanService = new WomanServiceImpl(womanRepository, settlementConverter);
 
         Mockito.when(settlementService.createSettler(settlement)).thenReturn(settlement);
-        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter);
+        burnService = new BurnServiceImpl(manService, womanService, settlementService, settlementConverter,randomStringGenerator);
         settlementFacade = new SettlementFacadeImpl(settlementService, burnService, deathService);
     }
 

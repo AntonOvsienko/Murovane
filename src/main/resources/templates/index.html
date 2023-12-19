@@ -5,79 +5,81 @@
     <title>Главная страница</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
-<body onload="getAllSettlements()">
-<h1>Сервис покупки и обслуживаню билетов</h1>
-<input type="button" value="Получить все поселения" onclick="getAllSettlements()">
-<div id="settlementList"></div>
-<br/>
-<form method="post" action="/api/settlements">
+<body>
+    <h1>Поселение</h1>
+    <div id="settlementList"></div>
+    <br/>
+    <form method="post" action="/api/settlements">
     <label for="quantity">Кол-во поселенцев (10-100):</label>
     <input type="number" id="quantity" name="quantity" min="10" max="100" required/>
     <input type="text" name="name" required/>
     <input type="button" value="Создать поселение" onclick="createSettlement()">
-</form>
-<br/>
+    </form>
+    <div class="settlementManipulation"></div>
+    <br/>
 
-<script>
-    function chooseSettlement(id) {
-        window.location.href = "/api/settlements/" + id;
-    }
+    <script>
+        window.onload(getAllSettlements());
 
-    function deleteSettlement(id) {
-        if (id !== null && id !== undefined && id !== "") {
-        var confirmation = confirm("Вы уверены, что хотите удалить поселение?" + id);
-        if (confirmation) {
+        const settlementManipulation=document.querySelector(".settlementManipulation");
+
+        function chooseSettlement(id) {
+            window.location.href = "/api/settlements/" + id;
+        }
+
+        function deleteSettlement(id) {
+            if (id !== null && id !== undefined && id !== "") {
+                var confirmation = confirm("Вы уверены, что хотите удалить поселение?" + id);
+                if (confirmation) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", "/api/settlements/" + id, true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 204) {
+                                alert("Поселение удалено успешно.");
+                                getAllSettlements();
+                            } else {
+                                alert("Ошибка при удалении поселения.");
+                            }
+                        }
+                    };
+                    xhr.send();
+                }
+            } else {
+                alert("Выберите поселение для удаления. ${id}");
+            }
+        }   
+
+        function createSettlement() {
+            var quantity = document.getElementById("quantity").value;
+            var name = document.getElementsByName("name")[0].value;
+
             var xhr = new XMLHttpRequest();
-            xhr.open("DELETE", "/api/settlements/" + id, true);
+            xhr.open("POST", "/api/settlements?quantity=" + quantity + "&name=" + name, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
-                    if (xhr.status === 204) {
-                        alert("Поселение удалено успешно.");
-                        getAllSettlements();
+                    if (xhr.status === 200) {
+                        alert("Поселение создано успешно.");
+                        window.location.reload();
                     } else {
-
-                        alert("Ошибка при удалении поселения.");
+                        alert("Ошибка при создании поселения.");
                     }
                 }
             };
             xhr.send();
         }
-    } else {
-        alert("Выберите поселение для удаления. ${id}");
-    }
-
-    }
-
-    function createSettlement() {
-        var quantity = document.getElementById("quantity").value;
-        var name = document.getElementsByName("name")[0].value;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/settlements?quantity=" + quantity + "&name=" + name, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    alert("Поселение создано успешно.");
-                    window.location.reload();
-                } else {
-                    alert("Ошибка при создании поселения.");
-                }
-            }
-        };
-        xhr.send();
-    }
 
         function getAllSettlements() {
-            var xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
             xhr.open("GET", "/api/settlements", true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        var settlements = JSON.parse(xhr.responseText);
+                        const settlements = JSON.parse(xhr.responseText);
                         console.log("All Settlements:", settlements);
 
                         // Получение элемента контейнера
-                        var dataContainer = $('#settlementList');
+                        let dataContainer = $('#settlementList');
 
                         // Очистка контейнера
                         dataContainer.empty();
@@ -91,45 +93,43 @@
                             settlements.forEach(function(settlement) {
                             var optionElement = $('<option>', { value: settlement.id }).text(settlement.name);
                             selectElement.append(optionElement);
-                        });
+                            });
 
-                        var deleteButtonSettlement = $('<input>', { type: 'button', value: 'Удалить поселение' });
-                        var chooseButtonSettlement = $('<input>', { type: 'button', value: 'Выбрать поселение' });
+                            const deleteButtonSettlement = $('<input>', { type: 'button', value: 'Удалить поселение' });
+                            const chooseButtonSettlement = $('<input>', { type: 'button', value: 'Выбрать поселение' });
 
-                        deleteButtonSettlement.on('click', function() {
-                            // Получение значения выбранного элемента
-                            var selectedValue = selectElement.val();
+                            deleteButton.on('click', (e) => {
+                                // Получение значения выбранного элемента
+                                var selectedValue = selectElement.val();
 
-                            // Вызов функции deleteSettlement с передачей значения
-                            deleteSettlement(selectedValue);
-                        });
+                                // Вызов функции deleteSettlement с передачей значения
+                                deleteSettlement(selectedValue);
+                            });
 
-                        chooseButtonSettlement.on('click', function() {
-                            // Получение значения выбранного элемента
-                            var selectedValue = selectElement.val();
+                            chooseButtonSettlement.on('click', (e) => {
+                                // Получение значения выбранного элемента
+                                var selectedValue = selectElement.val();
 
-                            // Вызов функции chooseSettlement с передачей значения
-                            chooseSettlement(selectedValue);
-                        });
+                                // Вызов функции chooseSettlement с передачей значения
+                                chooseSettlement(selectedValue);
+                            });
 
-                        // Добавление списка на страницу
-                        dataContainer.html('<label for="settlementSelect">Выберите поселение:</label>');
-                        dataContainer.append(selectElement);
-                        dataContainer.append(chooseButtonSettlement);
-                        dataContainer.append(deleteButtonSettlement);
+                            // Добавление списка на страницу
+                            dataContainer.html('<label for="settlementSelect">Выберите поселение:</label>');
+                            dataContainer.append(selectElement);
+                            dataContainer.append(chooseButtonSettlement);
+                            dataContainer.append(deleteButtonSettlement);
                         } else {
                         // Если нет поселений, выведите сообщение
-                        dataContainer.text("Нет данных о поселениях.");
-                        }
-                    } else {
+                            dataContainer.text("Нет данных о поселениях.");
+                            }
+                        } else {
                         alert("Ошибка при получении данных поселений.");
                     }
                 }
             };
-        xhr.send();
-    }
-
-</script>
-
+            xhr.send();
+        }
+    </script>
 </body>
 </html>
